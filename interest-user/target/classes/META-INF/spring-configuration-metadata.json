@@ -1,0 +1,83 @@
+{
+  "groups": [
+    {
+      "name": "interest.github",
+      "type": "com.interest.user.properties.GithubProperties",
+      "sourceType": "com.interest.user.properties.GithubProperties"
+    },
+    {
+      "name": "interest.paths-properties",
+      "type": "com.interest.user.properties.PathsProperties",
+      "sourceType": "com.interest.user.properties.PathsProperties"
+    },
+    {
+      "name": "interest.qq",
+      "type": "com.interest.user.properties.QQProperties",
+      "sourceType": "com.interest.user.properties.QQProperties"
+    },
+    {
+      "name": "thread.pool",
+      "type": "com.interest.user.config.ExecutePoolConfiguration",
+      "sourceType": "com.interest.user.config.ExecutePoolConfiguration"
+    }
+  ],
+  "properties": [
+    {
+      "name": "interest.github.client-id",
+      "type": "java.lang.String",
+      "sourceType": "com.interest.user.properties.GithubProperties"
+    },
+    {
+      "name": "interest.github.client-secret",
+      "type": "java.lang.String",
+      "sourceType": "com.interest.user.properties.GithubProperties"
+    },
+    {
+      "name": "interest.paths-properties.domain-name",
+      "type": "java.lang.String",
+      "description": "域名",
+      "sourceType": "com.interest.user.properties.PathsProperties"
+    },
+    {
+      "name": "interest.paths-properties.image",
+      "type": "java.lang.String",
+      "description": "图片的本地存储地址",
+      "sourceType": "com.interest.user.properties.PathsProperties"
+    },
+    {
+      "name": "interest.qq.appid",
+      "type": "java.lang.String",
+      "sourceType": "com.interest.user.properties.QQProperties"
+    },
+    {
+      "name": "interest.qq.appkey",
+      "type": "java.lang.String",
+      "sourceType": "com.interest.user.properties.QQProperties"
+    },
+    {
+      "name": "thread.pool.core-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.interest.user.config.ExecutePoolConfiguration",
+      "defaultValue": 16
+    },
+    {
+      "name": "thread.pool.keep-alive-seconds",
+      "type": "java.lang.Integer",
+      "sourceType": "com.interest.user.config.ExecutePoolConfiguration",
+      "defaultValue": 300
+    },
+    {
+      "name": "thread.pool.max-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.interest.user.config.ExecutePoolConfiguration",
+      "defaultValue": 64
+    },
+    {
+      "name": "thread.pool.queue-capacity",
+      "type": "java.lang.Integer",
+      "sourceType": "com.interest.user.config.ExecutePoolConfiguration",
+      "defaultValue": 80
+    }
+  ],
+  "hints": []
+}
