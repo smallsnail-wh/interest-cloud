@@ -86,6 +86,9 @@
     <modules>
         <module>interest-auth</module>
         <module>interest-user</module>
+        <module>interest-eureka</module>
+        <module>interest-message</module>
+        <module>interest-zuul</module>
     </modules>
 
     <repositories>
