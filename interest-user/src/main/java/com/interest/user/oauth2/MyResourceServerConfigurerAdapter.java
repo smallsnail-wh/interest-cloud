@@ -4,14 +4,21 @@ import com.interest.user.exception.InterestAuthenticationEntryPoint;
 import com.interest.user.exception.handler.InterestAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 @Configuration
 @EnableResourceServer
 public class MyResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter {
+
+
+    @Autowired
+    private RedisConnectionFactory redisConnection;
 
     @Autowired
     private InterestAccessDeniedHandler interestAccessDeniedHandler;
@@ -19,6 +26,7 @@ public class MyResourceServerConfigurerAdapter extends ResourceServerConfigurerA
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.authenticationEntryPoint(new InterestAuthenticationEntryPoint()).accessDeniedHandler(interestAccessDeniedHandler);
+        resources.tokenStore(new RedisTokenStore(redisConnection));
     }
 
     @Override
@@ -35,9 +43,8 @@ public class MyResourceServerConfigurerAdapter extends ResourceServerConfigurerA
                 .anyRequest()
                 .authenticated();
 
-        http.cors()
-                .and()
-                .csrf().disable();
+        http.cors().disable()
+            .csrf().disable();
 
     }
 
