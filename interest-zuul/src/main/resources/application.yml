@@ -22,11 +22,6 @@ zuul:
       path: /interest/user/**
       serviceId: interest-user
       stripPrefix: false
-security:
-  oauth2:
-    client:
-      access-token-uri: http://interest-auth/interest/auth/oauth/token
-      user-authorization-uri: http://interest-auth/interest/auth/oauth/authorize
 logging:
 # 你需要存储日志的目录
   file: D:/interest/file/log/interest.log
