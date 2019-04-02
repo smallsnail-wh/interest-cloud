@@ -1,7 +1,7 @@
-package com.interest.user.oauth2;
+package com.interest.blog.oauth2;
 
-import com.interest.user.exception.InterestAuthenticationEntryPoint;
-import com.interest.user.exception.handler.InterestAccessDeniedHandler;
+import com.interest.blog.exception.InterestAuthenticationEntryPoint;
+import com.interest.blog.exception.handler.InterestAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -43,7 +43,7 @@ public class MyResourceServerConfigurerAdapter extends ResourceServerConfigurerA
                 .authenticated();
 
         http.cors().disable()
-            .csrf().disable();
+                .csrf().disable();
 
     }
 

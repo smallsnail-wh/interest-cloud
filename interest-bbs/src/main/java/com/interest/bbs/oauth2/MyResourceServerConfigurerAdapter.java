@@ -1,7 +1,7 @@
-package com.interest.user.oauth2;
+package com.interest.bbs.oauth2;
 
-import com.interest.user.exception.InterestAuthenticationEntryPoint;
-import com.interest.user.exception.handler.InterestAccessDeniedHandler;
+import com.interest.bbs.exception.InterestAuthenticationEntryPoint;
+import com.interest.bbs.exception.handler.InterestAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;

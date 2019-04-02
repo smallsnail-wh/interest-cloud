@@ -7,8 +7,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @GetMapping("/public/test")
-    public String test(){
-        return "SUCCESS";
+    public String test1(){
+        return "/public/test SUCCESS";
+    }
+
+    @GetMapping("/test")
+    public String test2(){
+        return "/test SUCCESS";
     }
 
 }
