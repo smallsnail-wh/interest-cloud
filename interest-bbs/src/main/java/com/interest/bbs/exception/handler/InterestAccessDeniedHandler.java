@@ -1,7 +1,7 @@
 package com.interest.bbs.exception.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.interest.user.enums.ResponseStatus;
+import com.interest.bbs.enums.ResponseStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Service;
