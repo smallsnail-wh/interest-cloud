@@ -1,9 +1,9 @@
 package com.interest.user.picture.impl;
 
-import com.interest.user.picture.ImageUtil;
+import com.interest.common.utils.DateUtil;
+import com.interest.common.utils.ImageUtil;
 import com.interest.user.picture.PictureService;
 import com.interest.user.properties.PathsProperties;
-import com.interest.user.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

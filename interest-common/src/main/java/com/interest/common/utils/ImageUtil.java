@@ -1,4 +1,4 @@
-package com.interest.auth.picture;
+package com.interest.common.utils;
 
 import org.springframework.web.multipart.MultipartFile;
 
