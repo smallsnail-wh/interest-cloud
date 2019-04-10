@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@ComponentScan(basePackages = "com.interest")
+@ComponentScan(basePackages = {"com.interest.auth","com.interest.common"})
 public class InterestAuthApplication {
 
     public static void main(String[] args) {

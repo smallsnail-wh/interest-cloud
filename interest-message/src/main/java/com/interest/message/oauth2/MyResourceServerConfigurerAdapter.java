@@ -1,4 +1,4 @@
-package com.interest.bbs.oauth2;
+package com.interest.message.oauth2;
 
 import com.interest.common.exception.InterestAuthenticationEntryPoint;
 import com.interest.common.exception.handler.InterestAccessDeniedHandler;

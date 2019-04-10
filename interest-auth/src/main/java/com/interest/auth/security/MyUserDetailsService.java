@@ -37,10 +37,6 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
 
-        threadPoolTaskExecutor.execute(()->{
-            log.debug("*************************"+threadPoolTaskExecutor.getThreadNamePrefix()+"*************************");
-        });
-
         UserEntity userEntity = null;
 
         if (MyStringUtil.isInteger(id)) {

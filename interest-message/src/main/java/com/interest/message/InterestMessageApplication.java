@@ -1,15 +1,15 @@
-package com.interest.bbs;
+package com.interest.message;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.interest.bbs","com.interest.common"})
-public class InterestBbsApplication {
+@ComponentScan(basePackages = {"com.interest.message","com.interest.common"})
+public class InterestMessageApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(InterestBbsApplication.class, args);
+        SpringApplication.run(InterestMessageApplication.class, args);
     }
 
 }

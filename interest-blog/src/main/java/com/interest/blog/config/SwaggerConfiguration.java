@@ -29,13 +29,13 @@ public class SwaggerConfiguration {
 
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(buildApiInfo()).select()
                 // 要扫描的API(Controller)基础包
-                .apis(RequestHandlerSelectors.basePackage("com.interest.auth")).paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.interest.blog")).paths(PathSelectors.any())
                 .build()
                 .globalOperationParameters(pars);
     }
 
     private ApiInfo buildApiInfo() {
-        return new ApiInfoBuilder().title("API文档").description("interest接口文档")
+        return new ApiInfoBuilder().title("API文档").description("interest-blog接口文档")
                 .version("1.0").build();
     }
 }

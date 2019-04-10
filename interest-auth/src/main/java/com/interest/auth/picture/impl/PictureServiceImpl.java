@@ -17,34 +17,6 @@ public class PictureServiceImpl implements PictureService {
     private PathsProperties pathsProperties;
 
     @Override
-    public String saveImage(MultipartFile picture) {
-
-        return saveImage(picture, "");
-    }
-
-    @Override
-    public String saveImage(MultipartFile picture, String path) {
-        path = "/interest" + path + "/" + DateUtil.currentTimes();
-
-        String pictureUrl = null;
-        try {
-            if (picture != null) {
-                String fileName = ImageUtil.saveImgAndJPEGEncode(picture, pathsProperties.getImage() + path);
-                pictureUrl = pathsProperties.getDomainName() + "/interest" + path + "/" + fileName;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return pictureUrl;
-    }
-
-    @Override
-    public String saveImage(String url, String pictureFormat) {
-        return saveImage(url, "", pictureFormat);
-    }
-
-    @Override
     public String saveImage(String url, String path, String pictureFormat) {
         path = "/interest" + path + "/" + DateUtil.currentTimes();
 
