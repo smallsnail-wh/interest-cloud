@@ -3,9 +3,11 @@ package com.interest.auth.security;
 import com.interest.auth.model.entity.UserEntity;
 import com.interest.auth.service.RoleService;
 import com.interest.auth.service.UserService;
-import com.interest.auth.utils.MyStringUtil;
+import com.interest.common.utils.MyStringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,42 +23,50 @@ import java.util.Iterator;
 @Slf4j
 public class MyUserDetailsService implements UserDetailsService {
 
-	@Autowired
+    @Autowired
     private UserService userService;
 
-	@Autowired
+    @Autowired
     private RoleService roleService;
 
-	private final static String DEFAULT_PASSWORD = "interest";
-	
-	@Override
-	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-		UserEntity userEntity = null;
+    private final static String DEFAULT_PASSWORD = "interest";
 
-		if(MyStringUtil.isInteger(id)) {
-			userEntity = userService.getUserEntityById(Integer.valueOf(id));
-		}else {
-			userEntity = userService.getUserEntityByLoginName(id);
-		}
+    @Autowired
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
-		if(userEntity == null) {
-			throw new UsernameNotFoundException("用户:"+ id + "不存在！");
-		}
+    @Override
+    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
 
-		String password = userEntity.getPassword();
+        threadPoolTaskExecutor.execute(()->{
+            log.debug("*************************"+threadPoolTaskExecutor.getThreadNamePrefix()+"*************************");
+        });
 
-		if(password == null) {
-			password = DEFAULT_PASSWORD;
-		}
+        UserEntity userEntity = null;
 
-		Collection<SimpleGrantedAuthority> collection = new HashSet<SimpleGrantedAuthority>();
+        if (MyStringUtil.isInteger(id)) {
+            userEntity = userService.getUserEntityById(Integer.valueOf(id));
+        } else {
+            userEntity = userService.getUserEntityByLoginName(id);
+        }
 
-		Iterator<String> iterator =  roleService.getRolesByUserId(userEntity.getId()).iterator();
-		while (iterator.hasNext()){
-			collection.add(new SimpleGrantedAuthority(iterator.next()));
-		}
+        if (userEntity == null) {
+            throw new UsernameNotFoundException("用户:" + id + "不存在！");
+        }
 
-		return new User(String.valueOf(userEntity.getId()), password, collection);
-	}
+        String password = userEntity.getPassword();
+
+        if (password == null) {
+            password = DEFAULT_PASSWORD;
+        }
+
+        Collection<SimpleGrantedAuthority> collection = new HashSet<SimpleGrantedAuthority>();
+
+        Iterator<String> iterator = roleService.getRolesByUserId(userEntity.getId()).iterator();
+        while (iterator.hasNext()) {
+            collection.add(new SimpleGrantedAuthority(iterator.next()));
+        }
+
+        return new User(String.valueOf(userEntity.getId()), password, collection);
+    }
 
 }

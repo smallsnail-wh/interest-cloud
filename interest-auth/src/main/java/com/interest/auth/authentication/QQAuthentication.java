@@ -9,7 +9,7 @@ import com.interest.auth.properties.QQProperties;
 import com.interest.auth.service.UserDetailService;
 import com.interest.auth.service.UserQQService;
 import com.interest.auth.service.UserService;
-import com.interest.auth.utils.DateUtil;
+import com.interest.common.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;

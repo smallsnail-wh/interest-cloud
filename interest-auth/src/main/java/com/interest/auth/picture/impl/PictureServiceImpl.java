@@ -3,7 +3,7 @@ package com.interest.auth.picture.impl;
 import com.interest.auth.picture.ImageUtil;
 import com.interest.auth.picture.PictureService;
 import com.interest.auth.properties.PathsProperties;
-import com.interest.auth.utils.DateUtil;
+import com.interest.common.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

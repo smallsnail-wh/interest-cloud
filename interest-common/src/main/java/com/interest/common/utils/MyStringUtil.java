@@ -1,4 +1,4 @@
-package com.interest.auth.utils;
+package com.interest.common.utils;
 
 import java.util.regex.Pattern;
 

@@ -1,4 +1,4 @@
-package com.interest.auth.config;
+package com.interest.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
