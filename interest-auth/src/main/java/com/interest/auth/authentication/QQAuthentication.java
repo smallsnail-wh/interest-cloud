@@ -137,7 +137,6 @@ public class QQAuthentication implements MyAuthentication {
         // 异步将网络资源下载到本地，并且更新数据库
         threadPoolTaskExecutor.execute(() -> {
             userService.updateUserHeadImg(userEntity.getId(), pictureService.saveImage(headImg, "/head", "jpg"));
-            //userService.updateUserUrl(userEntity.getId());
         });
         return String.valueOf(userEntity.getId());
     }

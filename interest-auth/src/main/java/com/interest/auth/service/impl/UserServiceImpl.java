@@ -44,16 +44,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserHeadImg(int userId, String headImg) {
-        String oldHeadImg = userDao.getUserEntityById(userId).getHeadimg();
         userDao.updateHeadImg(userId, headImg);
-        threadPoolTaskExecutor.execute(()->{
-            if(pictureService.deleteImage(oldHeadImg)){
-                log.info("picture: {} delete successfully",oldHeadImg);
-            }else {
-                log.error("picture: {} delete unsuccessfully",oldHeadImg);
-            }
-
-        });
     }
 
     @Override

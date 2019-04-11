@@ -30,9 +30,4 @@ public class PictureServiceImpl implements PictureService {
         return pictureUrl;
     }
 
-    @Override
-    public boolean deleteImage(String pictureUrl) {
-        String fileName = pathsProperties.getImage() + pictureUrl.substring(pictureUrl.lastIndexOf("/interest"));
-        return ImageUtil.deleteImage(fileName);
-    }
 }

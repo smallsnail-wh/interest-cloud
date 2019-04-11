@@ -45,8 +45,14 @@ public class GitHubAuthentication implements MyAuthentication {
 
     private RestTemplate restTemplate = new RestTemplate();
 
+    /**
+     * GitHub token 请求地址
+     */
     private static final String GITHUB_ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token";
 
+    /**
+     * GitHub 用户信息请求地址
+     */
     private static final String GITHUB_USER_URL = "https://api.github.com/user";
 
     @Override
@@ -106,7 +112,6 @@ public class GitHubAuthentication implements MyAuthentication {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(githubToken.getString("email"));
         userEntity.setHeadimg(headImg);
-//        userEntity.setLoginName(githubToken.getString("login"));
         userEntity.setName(githubToken.getString("login"));
         userEntity.setUrl(githubToken.getString("html_url"));
         userEntity.setGithubid(githubToken.getString("login"));
