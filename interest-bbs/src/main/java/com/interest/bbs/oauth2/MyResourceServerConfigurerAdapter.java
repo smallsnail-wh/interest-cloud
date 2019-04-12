@@ -33,11 +33,8 @@ public class MyResourceServerConfigurerAdapter extends ResourceServerConfigurerA
         http.
                 authorizeRequests()
                 .antMatchers("/public/**").permitAll()
-                .antMatchers("/authentication/github", "/authentication/qq").permitAll()
-                .antMatchers("/register").permitAll()
                 .antMatchers("/**/*.jpg", "/**/*.png", "/**/*.jpeg").permitAll()
                 .antMatchers("/interest/**").permitAll()
-                .antMatchers("/users/**", "/menus/**", "/roles/**", "/admin/**").hasRole("ADMIN")
                 .antMatchers("/**/*.html", "/**/*.css", "/**/*.js", "/**/swagger-resources/**", "/**/*.woff2", "/**/v2/**").permitAll()
                 .anyRequest()
                 .authenticated();

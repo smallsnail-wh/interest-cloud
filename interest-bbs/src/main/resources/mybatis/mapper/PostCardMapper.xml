@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.interest.bbs.dao.PostCardDao">
+	<resultMap id="postCardMap"
+		type="com.interest.bbs.model.entity.PostCardEntity">
+		<id column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="content" property="content" />
+		<result column="interestid" property="interestid" />
+		<result column="createtime" property="createtime" />
+		<result column="replytime" property="replytime" />
+		<result column="userid" property="userid" />
+	</resultMap>
+
+	<resultMap id="postCardModelMap"
+			   type="com.interest.bbs.model.response.PostCardResponse">
+		<id column="id" property="id" />
+		<result column="username" property="username" />
+		<result column="title" property="title" />
+		<result column="content" property="content" />
+		<result column="interestid" property="interestid" />
+		<result column="createtime" property="createtime" />
+		<result column="replytime" property="replytime" />
+		<result column="headimg" property="headimg" />
+		<result column="githuburl" property="githuburl" />
+		<result column="userid" property="userid" />
+		<association property="replyCount" column="id" select="com.interest.bbs.dao.ReplyCardDao.replyCardCountByPostId"/>
+	</resultMap>
+
+
+</mapper>

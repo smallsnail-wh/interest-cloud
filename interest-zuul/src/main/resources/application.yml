@@ -9,7 +9,7 @@ spring:
       name: interest-zuul
 zuul:
   host:
-    connect-timeout-millis: 10000
+    connect-timeout-millis: 60000
     socket-timeout-millis: 60000
   add-proxy-headers: true
   sensitive-headers:
@@ -22,6 +22,21 @@ zuul:
       path: /interest/user/**
       serviceId: interest-user
       stripPrefix: false
+    bbs:
+      path: /interest/bbs/**
+      serviceId: interest-bbs
+      stripPrefix: false
+    blog:
+      path: /interest/blog/**
+      serviceId: interest-blog
+      stripPrefix: false
+    message:
+      path: /interest/message/**
+      serviceId: interest-message
+      stripPrefix: false
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
 logging:
 # 你需要存储日志的目录
   file: D:/interest/file/log/interest.log

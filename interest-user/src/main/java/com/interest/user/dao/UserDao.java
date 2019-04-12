@@ -1,34 +1,12 @@
 package com.interest.user.dao;
 
-import com.interest.user.entity.UserEntity;
+import com.interest.user.model.entity.UserEntity;
+import com.interest.user.model.response.UserBaseInfoVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserDao {
 
-    UserEntity getUserEntityById(@Param("id") Integer id);
-
-    /**
-     * 通过登录名拿到用户信息
-     *
-     * @param loginName
-     * @return
-     */
-    UserEntity getUserEntityByLoginName(@Param("loginName") String loginName);
-
-    UserEntity getEntityByGithubId(@Param("githubId") String login);
-
-    /**
-     * 新建用户信息
-     *
-     * @param userEntity
-     */
-    void insertUser(UserEntity userEntity);
-
-    void updateHeadImg(@Param("id") Integer id, @Param("headImg") String headImg);
-
-    UserEntity getEntityByQqid(@Param("qqid") String openid);
-
-    void insertUserByQq(UserEntity userEntity);
+    UserBaseInfoVO getUserBaseInfoById(@Param("id") int userId);
 }

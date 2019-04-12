@@ -1,4 +1,4 @@
-package com.interest.user.entity;
+package com.interest.user.model.entity;
 
 import lombok.Data;
 
