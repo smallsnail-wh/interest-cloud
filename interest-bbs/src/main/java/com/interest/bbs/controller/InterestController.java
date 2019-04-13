@@ -1,8 +1,7 @@
 package com.interest.bbs.controller;
 
-import com.interest.bbs.model.entity.InterestEntity;
-import com.interest.bbs.model.response.BannerResponse;
-import com.interest.bbs.model.response.InterestResponse;
+import com.interest.bbs.model.response.BannerVO;
+import com.interest.bbs.model.response.InterestNoContentVO;
 import com.interest.bbs.model.response.InterestVO;
 import com.interest.bbs.service.InterestService;
 import com.interest.common.model.ResponseWrapper;
@@ -22,13 +21,13 @@ public class InterestController {
 
     @ApiOperation("获取首页banner数据")
     @GetMapping("/public/banners")
-    public ResponseWrapper<List<BannerResponse>> bannersGet() {
+    public ResponseWrapper<List<BannerVO>> bannersGet() {
         return new ResponseWrapper<>(interestService.getBanners());
     }
 
     @ApiOperation("获取首页兴趣")
     @GetMapping("/public/interests")
-    public ResponseWrapper<List<InterestResponse>> interestGet(@RequestParam(value = "title", required = false) String title) {
+    public ResponseWrapper<List<InterestNoContentVO>> interestGet(@RequestParam(value = "title", required = false) String title) {
         return new ResponseWrapper<>(interestService.getInterest(title));
     }
 

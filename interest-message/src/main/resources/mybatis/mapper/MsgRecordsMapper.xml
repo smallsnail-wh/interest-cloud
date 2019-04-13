@@ -4,10 +4,10 @@
     <resultMap id="msgRecordMap"
                type="com.interest.message.model.entity.MsgRecordEntity">
         <id column="id" property="id"/>
-        <result column="ownerid" property="ownerid"/>
+        <result column="owner_id" property="ownerId"/>
         <result column="reply_card_id" property="replyCardId"/>
-        <result column="replytime" property="replytime"/>
-        <result column="isread" property="isread"/>
+        <result column="reply_time" property="replyTime"/>
+        <result column="is_read" property="isRead"/>
         <result column="form" property="form"/>
         <result column="comment_id" property="commentId"/>
     </resultMap>
@@ -32,8 +32,13 @@
     <select id="getUnreadMsgCount" parameterType="Integer" resultType="Integer">
         select count(1) from msg_records
         <where>
-            ownerid = #{userid} and isread = 0
+            owner_id = #{userId} and is_read = 0
         </where>
     </select>
+
+    <insert id="addMsg" parameterType="MsgRecordEntity">
+		insert into msg_records(owner_id, form, comment_id, reply_card_id, reply_time, is_read)
+			values(#{ownerId}, #{form}, #{commentId}, #{replyCardId}, #{replyTime}, #{isRead});
+	</insert>
 
 </mapper>

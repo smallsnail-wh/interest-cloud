@@ -8,10 +8,10 @@ public class ReplyCardEntity {
 
 	private String content;
 
-	private Integer postcardid;
+	private Integer postCardId;
 
-	private String createtime;
+	private String createTime;
 
-	private Integer userid;
+	private Integer userId;
 
 }

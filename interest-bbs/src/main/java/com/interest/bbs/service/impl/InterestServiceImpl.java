@@ -2,8 +2,8 @@ package com.interest.bbs.service.impl;
 
 import com.interest.bbs.dao.InterestDao;
 import com.interest.bbs.model.entity.InterestEntity;
-import com.interest.bbs.model.response.BannerResponse;
-import com.interest.bbs.model.response.InterestResponse;
+import com.interest.bbs.model.response.BannerVO;
+import com.interest.bbs.model.response.InterestNoContentVO;
 import com.interest.bbs.model.response.InterestVO;
 import com.interest.bbs.service.InterestService;
 import org.springframework.beans.BeanUtils;
@@ -20,12 +20,12 @@ public class InterestServiceImpl implements InterestService {
 
 
     @Override
-    public List<BannerResponse> getBanners() {
+    public List<BannerVO> getBanners() {
         return interestDao.getBanners();
     }
 
     @Override
-    public List<InterestResponse> getInterest(String title) {
+    public List<InterestNoContentVO> getInterest(String title) {
         return interestDao.getInterest(title);
     }
 

@@ -1,20 +1,22 @@
 package com.interest.bbs.service;
 
-import com.interest.bbs.model.entity.PostCardEntity;
-import com.interest.bbs.model.response.PostCardResponse;
+import com.interest.bbs.model.request.PostCardRequest;
+import com.interest.bbs.model.response.PostCardInfoVO;
+import com.interest.bbs.model.response.PostCardVO;
 
 import java.util.List;
 
 public interface PostCardService {
 
-    List<PostCardResponse> postcardList(String interestid, int pageSize, int start);
+    List<PostCardVO> postcardList(int interestId, int pageSize, int start);
 
-    Integer postcardSize(String interestid, int pageSize, int start);
+    Integer postcardSize(int interestId, int pageSize, int start);
 
-    void insertEntity(PostCardEntity postCardEntity);
+    void insertEntity(PostCardRequest postCardRequest);
 
-    PostCardResponse getPostcard(int id);
+    PostCardInfoVO getPostcard(int id);
 
-    void deletePostcards(List<String> groupId);
+    PostCardInfoVO getPostcardNoUserInfo(int id);
 
+    void updateReplyTime(Integer postCardId, String createTime);
 }

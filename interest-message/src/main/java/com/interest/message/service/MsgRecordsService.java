@@ -1,5 +1,7 @@
 package com.interest.message.service;
 
+import com.interest.common.model.Request.MsgRecodeRequest;
+
 public interface MsgRecordsService {
 
     /**
@@ -9,4 +11,5 @@ public interface MsgRecordsService {
      */
     int getUnreadMsgCount(Integer userid);
 
+    void insertMessage(MsgRecodeRequest msgRecodeRequest);
 }

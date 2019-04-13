@@ -3,8 +3,7 @@ package com.interest.bbs.model.response;
 import lombok.Data;
 
 @Data
-public class InterestResponse {
-
+public class InterestNoContentVO {
     private Integer id;
 
     private String title;
@@ -12,5 +11,4 @@ public class InterestResponse {
     private String info;
 
     private String image;
-
 }

@@ -10,12 +10,12 @@ public class PostCardEntity {
 
     private String content;
 
-    private Integer interestid;
+    private Integer interestId;
 
-    private String createtime;
+    private String createTime;
 
-    private String replytime;
+    private String replyTime;
 
-    private Integer userid;
+    private Integer userId;
 
 }

@@ -21,10 +21,35 @@
         <result column="url" property="url"/>
     </resultMap>
 
+    <resultMap id="userHeadInfoVO" type="com.interest.common.model.response.UserHeadInfoVO">
+        <result column="userId" property="userId"/>
+        <result column="headImg" property="headImg"/>
+        <result column="userName" property="userName"/>
+    </resultMap>
+
     <select id="getUserBaseInfoById" resultMap="userBaseInfoVO">
         SELECT name,email,headimg,url FROM user
         <where>
           id = #{id}
+        </where>
+    </select>
+
+    <select id="getUsersHeadInfoByIds" resultMap="userHeadInfoVO">
+        SELECT id userId,headimg headImg,name userName
+        FROM user
+        <where>
+            id IN
+            <foreach collection="ids" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="getUsersHeadInfoById" resultMap="userHeadInfoVO">
+        SELECT id userId,headimg headImg,name userName
+        FROM user
+        <where>
+            id = #{id}
         </where>
     </select>
 

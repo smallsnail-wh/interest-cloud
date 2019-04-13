@@ -2,12 +2,14 @@ package com.interest.common.model;
 
 import com.interest.common.enums.ResponseStatus;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 /**
  * 返回的JSON数据结构标准
  *
  * @param <T>
  */
+@Data
 public class ResponseWrapper<T> {
 
     @ApiModelProperty("状态码")
@@ -18,6 +20,13 @@ public class ResponseWrapper<T> {
 
     @ApiModelProperty("接口返回数据")
     private T data;
+
+    public ResponseWrapper() {
+    }
+
+    public ResponseWrapper(T data) {
+        this.data = data;
+    }
 
     public ResponseWrapper(ResponseStatus status, String message) {
         this.status = status.getValue();
@@ -35,31 +44,4 @@ public class ResponseWrapper<T> {
         this.data = data;
     }
 
-    public ResponseWrapper(T data) {
-        this.data = data;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(ResponseStatus status) {
-        this.status = status.getValue();
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
 }

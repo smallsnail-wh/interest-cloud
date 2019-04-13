@@ -7,7 +7,7 @@ public class MsgRecordEntity {
 
     private Integer id;
 
-    private Integer ownerid;
+    private Integer ownerId;
 
     private Integer form;
 
@@ -15,8 +15,8 @@ public class MsgRecordEntity {
 
     private Integer commentId;
 
-    private String replytime;
+    private String replyTime;
 
-    private Integer isread;
+    private Integer isRead;
 
 }

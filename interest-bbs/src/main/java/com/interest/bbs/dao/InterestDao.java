@@ -1,8 +1,8 @@
 package com.interest.bbs.dao;
 
 import com.interest.bbs.model.entity.InterestEntity;
-import com.interest.bbs.model.response.BannerResponse;
-import com.interest.bbs.model.response.InterestResponse;
+import com.interest.bbs.model.response.BannerVO;
+import com.interest.bbs.model.response.InterestNoContentVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,9 +11,9 @@ import java.util.List;
 @Mapper
 public interface InterestDao {
 
-    List<BannerResponse> getBanners();
+    List<BannerVO> getBanners();
 
-    List<InterestResponse> getInterest(@Param("title") String title);
+    List<InterestNoContentVO> getInterest(@Param("title") String title);
 
     InterestEntity getInterestById(@Param("id") int id);
 
