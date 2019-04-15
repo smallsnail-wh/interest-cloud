@@ -1,12 +1,18 @@
 package com.interest.user.service.impl;
 
+import com.interest.common.feign.InterestBlogFeign;
 import com.interest.common.model.response.UserHeadInfoVO;
+import com.interest.common.utils.ImageUtil;
 import com.interest.user.dao.UserDao;
+import com.interest.user.model.request.UserInfoRequest;
 import com.interest.user.model.response.UserBaseInfoVO;
 import com.interest.user.model.response.UserInfoVO;
+import com.interest.user.properties.PathsProperties;
+import com.interest.user.service.UserDetailService;
 import com.interest.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -21,6 +27,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private UserDetailService userDetailService;
+
+    @Autowired
+    private InterestBlogFeign interestBlogFeign;
 
     @Override
     public UserBaseInfoVO getUserBaseInfoById(int userId) {
@@ -43,5 +54,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfoVO getUserInfoById(int userId) {
         return userDao.getUserInfoById(userId);
+    }
+
+    @Override
+    public void updateUserInfoByUserId(int userId, UserInfoRequest userInfoRequest) {
+        userDao.updateUserInfo(userId, userInfoRequest.getName(), userInfoRequest.getUrl(), userInfoRequest.getEmail());
+        userDetailService.updateUserInfo(userId, userInfoRequest.getInfo(), userInfoRequest.getLocation(), userInfoRequest.getSkill());
+    }
+
+    @Override
+    public void updateUserHeadImg(int userId, String headImg) {
+        String oldHeadImg = userDao.getUserEntityById(userId).getHeadimg();
+        log.info("update | user | update user head img | params: (userId: {},headImg: {})",userId,headImg);
+        userDao.updateHeadImg(userId, headImg);
+        interestBlogFeign.deletePicture(oldHeadImg);
     }
 }

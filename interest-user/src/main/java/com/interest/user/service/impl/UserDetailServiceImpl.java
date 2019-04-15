@@ -11,4 +11,8 @@ public class UserDetailServiceImpl implements UserDetailService {
     @Autowired
     private UserDetailDao userDetailDao;
 
+    @Override
+    public void updateUserInfo(int userId, String info, String location, String skill) {
+        userDetailDao.updateUserInfo(userId,info,location,skill);
+    }
 }

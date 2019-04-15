@@ -72,4 +72,25 @@
         </where>
     </select>
 
+    <update id="updateUserInfo">
+        update user set name = #{name},url = #{url},email = #{email}
+        <where>
+            id = #{userId}
+        </where>
+    </update>
+
+    <select id="getUserEntityById" resultMap="userMap">
+        SELECT * FROM user
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <update id="updateHeadImg">
+        update user set headimg = #{headImg}
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
 </mapper>

@@ -9,4 +9,11 @@
         <result column="skill" property="skill"/>
     </resultMap>
 
+    <update id="updateUserInfo">
+        update user_detail set info = #{info},location = #{location},skill = #{skill}
+        <where>
+            userid = #{userId}
+        </where>
+    </update>
+
 </mapper>

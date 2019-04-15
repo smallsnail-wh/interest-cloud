@@ -4,14 +4,17 @@ import com.interest.blog.picture.PictureService;
 import com.interest.blog.properties.PathsProperties;
 import com.interest.common.utils.DateUtil;
 import com.interest.common.utils.ImageUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 @Service
+@Slf4j
 public class PictureServiceImpl implements PictureService {
 
     @Value("${server.servlet.context-path}")
@@ -19,6 +22,9 @@ public class PictureServiceImpl implements PictureService {
 
     @Autowired
     private PathsProperties pathsProperties;
+
+    @Autowired
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Override
     public String saveImage(MultipartFile picture) {
@@ -64,8 +70,14 @@ public class PictureServiceImpl implements PictureService {
     }
 
     @Override
-    public boolean deleteImage(String pictureUrl) {
-        String fileName = pathsProperties.getImage() + pictureUrl.substring(pictureUrl.lastIndexOf("/interest"));
-        return ImageUtil.deleteImage(fileName);
+    public void deleteImage(String pictureUrl) {
+        threadPoolTaskExecutor.execute(() -> {
+            String fileName = pathsProperties.getImage() + pictureUrl.substring(pictureUrl.lastIndexOf("/interest"));
+            if (ImageUtil.deleteImage(fileName)) {
+                log.info("picture: {} delete successfully", pictureUrl);
+            } else {
+                log.error("picture: {} delete unsuccessfully", pictureUrl);
+            }
+        });
     }
 }

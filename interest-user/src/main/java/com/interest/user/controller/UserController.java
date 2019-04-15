@@ -4,6 +4,7 @@ import com.interest.common.model.ResponseWrapper;
 import com.interest.common.model.response.UserHeadInfoVO;
 import com.interest.common.utils.SecurityAuthenUtil;
 import com.interest.user.model.entity.UserEntity;
+import com.interest.user.model.request.UserInfoRequest;
 import com.interest.user.model.response.UserBaseInfoVO;
 import com.interest.user.model.response.UserInfoVO;
 import com.interest.user.service.UserService;
@@ -59,6 +60,21 @@ public class UserController {
     public ResponseWrapper<UserInfoVO> getUserInfoById(@RequestParam("userId") int userId) {
         UserInfoVO userInfoResponse = userService.getUserInfoById(userId);
         return new ResponseWrapper<>(userInfoResponse);
+    }
+
+    @ApiOperation("修改用户详情")
+    @PutMapping("/general/users/user/info")
+    public ResponseWrapper<String> updateUserInfo(@RequestBody UserInfoRequest userInfoRequest) {
+        int userId = SecurityAuthenUtil.getId();
+        userService.updateUserInfoByUserId(userId, userInfoRequest);
+        return new ResponseWrapper<>("success");
+    }
+
+    @PatchMapping("/general/users/user/headImg")
+    public ResponseWrapper<String> updateUserHeadImg(@RequestParam("headImg") String headImg) {
+        int userId = SecurityAuthenUtil.getId();
+        userService.updateUserHeadImg(userId, headImg);
+        return new ResponseWrapper<>(headImg);
     }
 
 }

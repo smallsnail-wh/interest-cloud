@@ -2,6 +2,7 @@ package com.interest.user.service;
 
 
 import com.interest.common.model.response.UserHeadInfoVO;
+import com.interest.user.model.request.UserInfoRequest;
 import com.interest.user.model.response.UserBaseInfoVO;
 import com.interest.user.model.response.UserInfoVO;
 import org.apache.ibatis.annotations.Param;
@@ -19,4 +20,8 @@ public interface UserService {
     UserHeadInfoVO getUsersHeadInfoById(Integer id);
 
     UserInfoVO getUserInfoById(int userId);
+
+    void updateUserInfoByUserId(int userId, UserInfoRequest userInfoRequest);
+
+    void updateUserHeadImg(int userId, String headImg);
 }
