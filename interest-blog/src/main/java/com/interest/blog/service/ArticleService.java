@@ -16,20 +16,19 @@ public interface ArticleService {
 
     void addCommentCountById(Integer articleId);
 
-    //TODO
     void createArticle(ArticleCreateRequest articleCreateRequest);
 
-
-
     PageResult getArticlesByUserId(int userId, PageWrapper pageWrapper);
+
+    void updateArticlesDelById(int articleId);
+
+    void updateArticle(ArticleUpdateRequest articleCreateRequest);
+
+    //TODO
 
     PageResult getArticleOnManagement(String searchContent, String dateTimestamp, int del, PageWrapper pageWrapper);
 
     void updateArticlesDelByIds(List<String> groupId, int del);
 
     void updateArticlesTopByIds(List<String> groupId, int top);
-
-    void updateArticlesDelById(int articleId);
-
-    void updateArticle(ArticleUpdateRequest articleCreateRequest);
 }

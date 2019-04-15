@@ -1,4 +1,4 @@
-package com.interest.common.service;
+package com.interest.blog.picture;
 
 import org.springframework.web.multipart.MultipartFile;
 

@@ -20,14 +20,19 @@ public interface ArticleDao {
 
     ArticleDetailVO getArticleById(@Param("id") int id);
 
-    void addCommentCountById(@Param("number") int number, @Param("id") Integer articleid);
+    void addCommentCountById(@Param("number") int number, @Param("id") Integer articleId);
 
-    //TODO
     void insertArticle(ArticleEntity articleEntity);
 
     List<ArticleVO> getArticlesListByUserId(@Param("userId") int userId, @Param("pageWrapper") PageWrapper pageWrapper);
 
     Integer getArticlesSizeByUserId(@Param("userId") int userId);
+
+    void updateArticlesDelByIdAndUserId(@Param("userId") int userId, @Param("articleId") int articleId);
+
+    void updateArticle(ArticleEntity articleEntity);
+
+    //TODO
 
     List<ArticleVO> getArticleListOnManagement(@Param("searchContent") String searchContent, @Param("dayStart") String dayStart, @Param("dayEnd") String dayEnd, @Param("del") int del, @Param("pageWrapper") PageWrapper pageWrapper);
 
@@ -36,8 +41,4 @@ public interface ArticleDao {
     void updateArticlesDelByIds(@Param("groupId") List<String> groupId, @Param("del") int del);
 
     void updateArticlesTopByIds(@Param("groupId") List<String> groupId, @Param("top") int top);
-
-    void updateArticlesDelByIdAndUserId(@Param("userId") int userId, @Param("articleId") int articleId);
-
-    void updateArticle(ArticleEntity articleEntity);
 }

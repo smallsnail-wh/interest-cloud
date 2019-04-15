@@ -27,6 +27,16 @@
         <result column="userName" property="userName"/>
     </resultMap>
 
+    <resultMap id="userInfoVO" type="com.interest.user.model.response.UserInfoVO">
+        <id column="headimg" property="headimg"/>
+        <result column="name" property="name"/>
+        <result column="url" property="url"/>
+        <result column="email" property="email"/>
+        <result column="info" property="info"/>
+        <result column="location" property="location"/>
+        <result column="skill" property="skill"/>
+    </resultMap>
+
     <select id="getUserBaseInfoById" resultMap="userBaseInfoVO">
         SELECT name,email,headimg,url FROM user
         <where>
@@ -50,6 +60,15 @@
         FROM user
         <where>
             id = #{id}
+        </where>
+    </select>
+
+    <select id="getUserInfoById" resultMap="userInfoVO">
+        select a.headimg,a.name,a.email,a.url,b.info,b.location,b.skill
+        from user a
+        left join user_detail b on a.id = b.userid
+        <where>
+            a.id = #{userId}
         </where>
     </select>
 

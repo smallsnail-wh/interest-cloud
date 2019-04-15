@@ -3,6 +3,7 @@ package com.interest.user.service.impl;
 import com.interest.common.model.response.UserHeadInfoVO;
 import com.interest.user.dao.UserDao;
 import com.interest.user.model.response.UserBaseInfoVO;
+import com.interest.user.model.response.UserInfoVO;
 import com.interest.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserHeadInfoVO getUsersHeadInfoById(Integer id) {
         return userDao.getUsersHeadInfoById(id);
+    }
+
+    @Override
+    public UserInfoVO getUserInfoById(int userId) {
+        return userDao.getUserInfoById(userId);
     }
 }

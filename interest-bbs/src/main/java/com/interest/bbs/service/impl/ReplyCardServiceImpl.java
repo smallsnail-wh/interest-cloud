@@ -9,6 +9,7 @@ import com.interest.bbs.service.ReplyCardService;
 import com.interest.common.feign.InterestMessageFeign;
 import com.interest.common.feign.InterestUserFeign;
 import com.interest.common.model.Request.MsgRecodeRequest;
+import com.interest.common.model.response.MsgContentVO;
 import com.interest.common.model.response.UserHeadInfoVO;
 import com.interest.common.utils.DateUtil;
 import com.interest.common.utils.SecurityAuthenUtil;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -89,5 +91,10 @@ public class ReplyCardServiceImpl implements ReplyCardService {
         msgRecodeRequest.setReplyTime(replyCardEntity.getCreateTime());
         msgRecodeRequest.setIsRead(0);
         interestMessageFeign.insertMessage(msgRecodeRequest);
+    }
+
+    @Override
+    public List<MsgContentVO> getMsgContentByIds(Set<Integer> ids) {
+        return replyCardDao.getMsgContentByIds(ids);
     }
 }

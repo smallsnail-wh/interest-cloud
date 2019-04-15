@@ -3,6 +3,7 @@ package com.interest.user.service;
 
 import com.interest.common.model.response.UserHeadInfoVO;
 import com.interest.user.model.response.UserBaseInfoVO;
+import com.interest.user.model.response.UserInfoVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.parameters.P;
 
@@ -16,4 +17,6 @@ public interface UserService {
     List<UserHeadInfoVO> getUsersHeadInfoByIds(Set<Integer> ids);
 
     UserHeadInfoVO getUsersHeadInfoById(Integer id);
+
+    UserInfoVO getUserInfoById(int userId);
 }

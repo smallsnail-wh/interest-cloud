@@ -2,6 +2,7 @@ package com.interest.user.dao;
 
 import com.interest.common.model.response.UserHeadInfoVO;
 import com.interest.user.model.response.UserBaseInfoVO;
+import com.interest.user.model.response.UserInfoVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,4 +17,6 @@ public interface UserDao {
     List<UserHeadInfoVO> getUsersHeadInfoByIds(@Param("ids") Set<Integer> ids);
 
     UserHeadInfoVO getUsersHeadInfoById(@Param("id") Integer id);
+
+    UserInfoVO getUserInfoById(@Param("userId") int userId);
 }

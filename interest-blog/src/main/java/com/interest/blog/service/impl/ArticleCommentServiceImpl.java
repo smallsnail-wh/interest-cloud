@@ -12,6 +12,7 @@ import com.interest.common.feign.InterestUserFeign;
 import com.interest.common.model.PageResult;
 import com.interest.common.model.PageWrapper;
 import com.interest.common.model.Request.MsgRecodeRequest;
+import com.interest.common.model.response.MsgContentVO;
 import com.interest.common.model.response.UserHeadInfoVO;
 import com.interest.common.utils.DateUtil;
 import com.interest.common.utils.SecurityAuthenUtil;
@@ -111,5 +112,10 @@ public class ArticleCommentServiceImpl implements ArticleCommentService {
         int size = articleCommentDao.getArticleCommentSizeByArticleId(articleId);
 
         return new PageResult<>(list, size);
+    }
+
+    @Override
+    public List<MsgContentVO> getMsgContentByIds(Set<Integer> ids) {
+        return articleCommentDao.getMsgContentByIds(ids);
     }
 }

@@ -40,6 +40,15 @@
         <result column="userHeadImg" property="userHeadImg"/>
     </resultMap>
 
+    <resultMap id="msgContentVO"
+               type="com.interest.common.model.response.MsgContentVO">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="replyContent" property="replyContent" />
+        <result column="toId" property="toId" />
+        <result column="replyUserId" property="replyUserId" />
+    </resultMap>
+
     <insert id="insertEntity" parameterType="ArticleCommentEntity">
         <selectKey keyProperty="id" resultType="java.lang.Integer"
                    order="AFTER">
@@ -72,6 +81,18 @@
         select count(1) from article_comment
         <where>
             article_id = #{articleId} and parent_id is null
+        </where>
+    </select>
+
+    <select id="getMsgContentByIds" resultMap="msgContentVO">
+        select a.id,a.comment replyContent,a.user_id replyUserId,b.title title,b.id toId
+        from article_comment a
+        left join article b on a.article_id = b.id
+        <where>
+            a.id in
+            <foreach collection="ids" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
         </where>
     </select>
 

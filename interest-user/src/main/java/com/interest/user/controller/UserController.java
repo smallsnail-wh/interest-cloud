@@ -5,6 +5,7 @@ import com.interest.common.model.response.UserHeadInfoVO;
 import com.interest.common.utils.SecurityAuthenUtil;
 import com.interest.user.model.entity.UserEntity;
 import com.interest.user.model.response.UserBaseInfoVO;
+import com.interest.user.model.response.UserInfoVO;
 import com.interest.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,21 @@ public class UserController {
     @GetMapping("/public/users/user/id")
     ResponseWrapper<UserHeadInfoVO> getUsersHeadInfoById(@RequestParam("userId") Integer userId){
         return new ResponseWrapper<>(userService.getUsersHeadInfoById(userId));
+    }
+
+    @ApiOperation("获取用户详情")
+    @GetMapping("/general/users/user/info")
+    public ResponseWrapper<UserInfoVO> getUserInfo() {
+        int userId = SecurityAuthenUtil.getId();
+        UserInfoVO userInfoResponse = userService.getUserInfoById(userId);
+        return new ResponseWrapper<>(userInfoResponse);
+    }
+
+    @GetMapping("/public/users/user/info")
+    @ApiOperation("通过用户id来获取用户详情")
+    public ResponseWrapper<UserInfoVO> getUserInfoById(@RequestParam("userId") int userId) {
+        UserInfoVO userInfoResponse = userService.getUserInfoById(userId);
+        return new ResponseWrapper<>(userInfoResponse);
     }
 
 }

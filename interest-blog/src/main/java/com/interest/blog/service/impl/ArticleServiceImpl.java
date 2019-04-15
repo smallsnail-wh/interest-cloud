@@ -1,12 +1,14 @@
 package com.interest.blog.service.impl;
 
 import com.interest.blog.dao.ArticleDao;
+import com.interest.blog.exception.ArticleException;
 import com.interest.blog.model.entity.ArticleEntity;
 import com.interest.blog.model.request.ArticleCreateRequest;
 import com.interest.blog.model.request.ArticleUpdateRequest;
 import com.interest.blog.model.response.ArticleDetailVO;
 import com.interest.blog.model.response.ArticleVO;
 import com.interest.blog.service.ArticleService;
+import com.interest.common.enums.ResponseStatus;
 import com.interest.common.feign.InterestUserFeign;
 import com.interest.common.model.PageResult;
 import com.interest.common.model.PageWrapper;
@@ -15,6 +17,8 @@ import com.interest.common.utils.DateUtil;
 import com.interest.common.utils.SecurityAuthenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +39,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private InterestUserFeign interestUserFeign;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public PageResult<List<ArticleVO>> getArticle(String searchContent, PageWrapper pageWrapper) {
@@ -60,10 +67,12 @@ public class ArticleServiceImpl implements ArticleService {
             articleDao.addClickRateById(1, id);
         });
 
-        ArticleDetailVO articleDetailVO = articleDao.getArticleById(id);;
-        UserHeadInfoVO userHeadInfoVO = interestUserFeign.getUsersHeadInfoById(articleDetailVO.getUserId()).getData();
-        articleDetailVO.setUserName(userHeadInfoVO.getUserName());
-        articleDetailVO.setUserHeadImg(userHeadInfoVO.getHeadImg());
+        ArticleDetailVO articleDetailVO = articleDao.getArticleById(id);
+        if(articleDetailVO != null){
+            UserHeadInfoVO userHeadInfoVO = interestUserFeign.getUsersHeadInfoById(articleDetailVO.getUserId()).getData();
+            articleDetailVO.setUserName(userHeadInfoVO.getUserName());
+            articleDetailVO.setUserHeadImg(userHeadInfoVO.getHeadImg());
+        }
 
         return articleDetailVO;
     }
@@ -76,27 +85,22 @@ public class ArticleServiceImpl implements ArticleService {
         });
     }
 
-    //TODO
-//    @Autowired
-//    private UserDetailService userDetailService;
-
-
     @Override
     @Transactional
     public void createArticle(ArticleCreateRequest articleCreateRequest) {
-        int userid = SecurityAuthenUtil.getId();
+        int userId = SecurityAuthenUtil.getId();
 
-//        UserDetailEntity userDetailEntity = userDetailService.getEntityByUserid(userid);
-//        if (userDetailEntity.getArticleSign() == 1) {
-//            throw new ArticleException(ResponseStatus.FAIL_6001.getValue(), ResponseStatus.FAIL_6001.getReasonPhrase());
-//        }
+        Boolean articleSign = stringRedisTemplate.hasKey("article_"+userId);
+        if (articleSign != null && articleSign) {
+            throw new ArticleException(ResponseStatus.FAIL_6001.getValue(), ResponseStatus.FAIL_6001.getReasonPhrase());
+        }
 
         ArticleEntity articleEntity = new ArticleEntity();
         articleEntity.setTitle(articleCreateRequest.getTitle());
         articleEntity.setContent(articleCreateRequest.getContent());
         articleEntity.setCreateTime(DateUtil.currentTimestamp());
         articleEntity.setReplyTime(articleEntity.getCreateTime());
-        articleEntity.setUserId(userid);
+        articleEntity.setUserId(userId);
 
         String info = htmlText(articleEntity.getContent());
         if (info.length() > 100) {
@@ -106,65 +110,15 @@ public class ArticleServiceImpl implements ArticleService {
 
         articleDao.insertArticle(articleEntity);
 
-        //userDetailService.updateArticleSign(1, userid);
+        stringRedisTemplate.opsForValue().append("article_"+userId,"1");
     }
 
-    @Override
-    public PageResult getArticlesByUserId(int userId, PageWrapper pageWrapper) {
-        List<ArticleVO> list = articleDao.getArticlesListByUserId(userId, pageWrapper);
-        int size = articleDao.getArticlesSizeByUserId(userId);
-        return new PageResult(list, size);
-    }
-
-    @Override
-    public PageResult getArticleOnManagement(String searchContent, String dateTimestamp, int del, PageWrapper pageWrapper) {
-        String dayStart = null;
-        String dayEnd = null;
-        if (dateTimestamp != null && !"".equals(dateTimestamp)) {
-            dayStart = DateUtil.dayStart(dateTimestamp);
-            dayEnd = DateUtil.dayEnd(dateTimestamp);
-        }
-        List<ArticleVO> list = articleDao.getArticleListOnManagement(searchContent, dayStart, dayEnd, del, pageWrapper);
-        int size = articleDao.getArticleSizeOnManagement(searchContent, dayStart, dayEnd, del);
-        return new PageResult(list, size);
-    }
-
-    @Override
-    public void updateArticlesDelByIds(List<String> groupId, int del) {
-        articleDao.updateArticlesDelByIds(groupId, del);
-    }
-
-    @Override
-    public void updateArticlesTopByIds(List<String> groupId, int top) {
-        articleDao.updateArticlesTopByIds(groupId, top);
-    }
-
-    @Override
-    public void updateArticlesDelById(int articleId) {
-        int userId = SecurityAuthenUtil.getId();
-        articleDao.updateArticlesDelByIdAndUserId(userId, articleId);
-    }
-
-    @Override
-    public void updateArticle(ArticleUpdateRequest articleCreateRequest) {
-        int userId = SecurityAuthenUtil.getId();
-
-        ArticleEntity articleEntity = new ArticleEntity();
-        articleEntity.setId(articleCreateRequest.getId());
-        articleEntity.setTitle(articleCreateRequest.getTitle());
-        articleEntity.setContent(articleCreateRequest.getContent());
-        articleEntity.setUserId(userId);
-        String info = htmlText(articleEntity.getContent());
-        if (info.length() > 100) {
-            info = info.substring(0, 100);
-        }
-        articleEntity.setInfo(info);
-
-        articleDao.updateArticle(articleEntity);
-
-    }
-
-    public String htmlText(String htmlStr) {
+    /**
+     * 截取文章中的文字
+     * @param htmlStr 文章
+     * @return 文章文字
+     */
+    private String htmlText(String htmlStr) {
         String textStr = "";
         Pattern p_script;
         java.util.regex.Matcher m_script;
@@ -194,4 +148,74 @@ public class ArticleServiceImpl implements ArticleService {
         textStr = textStr.replaceAll("(?m)^\\s*$(\\n|\\r\\n)", "");
         return textStr;// 返回文本字符串
     }
+
+    @Override
+    public PageResult<List<ArticleVO>> getArticlesByUserId(int userId, PageWrapper pageWrapper) {
+        List<ArticleVO> articleVOList = articleDao.getArticlesListByUserId(userId, pageWrapper);
+        List<UserHeadInfoVO> userHeadInfoVOList = interestUserFeign.getUsersHeadInfoByIds(articleVOList.stream().map(ArticleVO::getUserId).collect(Collectors.toSet())).getData();
+        articleVOList.forEach(e->{
+            userHeadInfoVOList.forEach(userHeadInfoVO -> {
+                if(e.getUserId() == userHeadInfoVO.getUserId()){
+                    e.setUserName(userHeadInfoVO.getUserName());
+                    e.setUserHeadImg(userHeadInfoVO.getHeadImg());
+                }
+            });
+        });
+
+        int size = articleDao.getArticlesSizeByUserId(userId);
+        return new PageResult<>(articleVOList, size);
+    }
+
+    @Override
+    public void updateArticlesDelById(int articleId) {
+        int userId = SecurityAuthenUtil.getId();
+        articleDao.updateArticlesDelByIdAndUserId(userId, articleId);
+    }
+
+    @Override
+    public void updateArticle(ArticleUpdateRequest articleCreateRequest) {
+        int userId = SecurityAuthenUtil.getId();
+
+        ArticleEntity articleEntity = new ArticleEntity();
+        articleEntity.setId(articleCreateRequest.getId());
+        articleEntity.setTitle(articleCreateRequest.getTitle());
+        articleEntity.setContent(articleCreateRequest.getContent());
+        articleEntity.setUserId(userId);
+        String info = htmlText(articleEntity.getContent());
+        if (info.length() > 100) {
+            info = info.substring(0, 100);
+        }
+        articleEntity.setInfo(info);
+
+        articleDao.updateArticle(articleEntity);
+
+    }
+
+    //TODO
+//    @Autowired
+//    private UserDetailService userDetailService;
+
+    @Override
+    public PageResult getArticleOnManagement(String searchContent, String dateTimestamp, int del, PageWrapper pageWrapper) {
+        String dayStart = null;
+        String dayEnd = null;
+        if (dateTimestamp != null && !"".equals(dateTimestamp)) {
+            dayStart = DateUtil.dayStart(dateTimestamp);
+            dayEnd = DateUtil.dayEnd(dateTimestamp);
+        }
+        List<ArticleVO> list = articleDao.getArticleListOnManagement(searchContent, dayStart, dayEnd, del, pageWrapper);
+        int size = articleDao.getArticleSizeOnManagement(searchContent, dayStart, dayEnd, del);
+        return new PageResult(list, size);
+    }
+
+    @Override
+    public void updateArticlesDelByIds(List<String> groupId, int del) {
+        articleDao.updateArticlesDelByIds(groupId, del);
+    }
+
+    @Override
+    public void updateArticlesTopByIds(List<String> groupId, int top) {
+        articleDao.updateArticlesTopByIds(groupId, top);
+    }
+
 }

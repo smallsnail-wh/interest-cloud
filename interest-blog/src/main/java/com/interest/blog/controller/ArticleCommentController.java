@@ -5,10 +5,14 @@ import com.interest.blog.service.ArticleCommentService;
 import com.interest.common.model.PageResult;
 import com.interest.common.model.PageWrapper;
 import com.interest.common.model.ResponseWrapper;
+import com.interest.common.model.response.MsgContentVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @Api(tags = "文章评论模块")
@@ -34,6 +38,11 @@ public class ArticleCommentController {
         PageWrapper pageWrapper = new PageWrapper(pageSize, page);
         PageResult pageResult = articleCommentService.getArticleCommentByArticleId(articleId, pageWrapper);
         return new ResponseWrapper<>(pageResult);
+    }
+
+    @PostMapping("/article/comments/ids")
+    ResponseWrapper<List<MsgContentVO>> getMsgContentByIds(@RequestBody Set<Integer> ids){
+        return new ResponseWrapper<>(articleCommentService.getMsgContentByIds(ids));
     }
 
 }

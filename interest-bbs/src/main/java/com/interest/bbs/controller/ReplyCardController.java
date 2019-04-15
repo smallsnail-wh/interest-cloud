@@ -6,11 +6,13 @@ import com.interest.bbs.model.response.ReplyCardVO;
 import com.interest.bbs.service.ReplyCardService;
 import com.interest.common.model.PageResult;
 import com.interest.common.model.ResponseWrapper;
+import com.interest.common.model.response.MsgContentVO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class ReplyCardController {
@@ -33,6 +35,11 @@ public class ReplyCardController {
     public ResponseWrapper<String> insertEntity(@RequestBody ReplyCardRequest replyCardRequest) {
         replyCardService.insertEntity(replyCardRequest);
         return new ResponseWrapper<>("success");
+    }
+
+    @PostMapping("/reply-cards/ids")
+    public ResponseWrapper<List<MsgContentVO>> getMsgContentByIds(@RequestBody Set<Integer> ids){
+        return new ResponseWrapper<>(replyCardService.getMsgContentByIds(ids));
     }
 
 }

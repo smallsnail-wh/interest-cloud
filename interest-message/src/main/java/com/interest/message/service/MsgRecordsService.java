@@ -1,5 +1,6 @@
 package com.interest.message.service;
 
+import com.interest.common.model.PageResult;
 import com.interest.common.model.Request.MsgRecodeRequest;
 
 public interface MsgRecordsService {
@@ -12,4 +13,14 @@ public interface MsgRecordsService {
     int getUnreadMsgCount(Integer userid);
 
     void insertMessage(MsgRecodeRequest msgRecodeRequest);
+
+    /**
+     * 查用户消息
+     * @param pageSize
+     * @param start
+     * @return
+     */
+    PageResult getUserMegsResult(int pageSize, int start);
+
+    void updateMsgRecordIsRead(int msgRecordId, int readSign);
 }

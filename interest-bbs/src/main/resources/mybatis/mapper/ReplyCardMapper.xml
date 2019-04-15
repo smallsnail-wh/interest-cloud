@@ -17,6 +17,15 @@
 		<result column="user_id" property="userId" />
 	</resultMap>
 
+	<resultMap id="msgContentVO"
+			   type="com.interest.common.model.response.MsgContentVO">
+		<id column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="replyContent" property="replyContent" />
+		<result column="toId" property="toId" />
+		<result column="replyUserId" property="replyUserId" />
+	</resultMap>
+
 	<select id="replyCardCountByPostId" resultType="Integer">
 		select count(1) from reply_card
 		<where>
@@ -52,5 +61,16 @@
 		values (#{userId},#{content},#{postCardId},#{createTime})
 	</insert>
 
+	<select id="getMsgContentByIds" resultMap="msgContentVO">
+		select a.id,a.content replyContent,a.user_id replyUserId,b.title title,b.id toId
+        from reply_card a
+        left join post_card b on a.post_card_id = b.id
+        <where>
+			a.id in
+			<foreach collection="ids" item="item" separator="," open="(" close=")">
+				#{item}
+			</foreach>
+		</where>
+	</select>
 
 </mapper>
