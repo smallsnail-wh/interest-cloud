@@ -32,11 +32,9 @@ public interface ArticleDao {
 
     void updateArticle(ArticleEntity articleEntity);
 
-    //TODO
-
     List<ArticleVO> getArticleListOnManagement(@Param("searchContent") String searchContent, @Param("dayStart") String dayStart, @Param("dayEnd") String dayEnd, @Param("del") int del, @Param("pageWrapper") PageWrapper pageWrapper);
 
-    int getArticleSizeOnManagement(@Param("searchContent") String searchContent, @Param("dayStart") String dayStart, @Param("dayEnd") String dayEnd, @Param("del") int del);
+    Integer getArticleSizeOnManagement(@Param("searchContent") String searchContent, @Param("dayStart") String dayStart, @Param("dayEnd") String dayEnd, @Param("del") int del);
 
     void updateArticlesDelByIds(@Param("groupId") List<String> groupId, @Param("del") int del);
 

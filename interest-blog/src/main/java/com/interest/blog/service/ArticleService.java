@@ -3,6 +3,7 @@ package com.interest.blog.service;
 import com.interest.blog.model.request.ArticleCreateRequest;
 import com.interest.blog.model.request.ArticleUpdateRequest;
 import com.interest.blog.model.response.ArticleDetailVO;
+import com.interest.blog.model.response.ArticleVO;
 import com.interest.common.model.PageResult;
 import com.interest.common.model.PageWrapper;
 
@@ -24,9 +25,7 @@ public interface ArticleService {
 
     void updateArticle(ArticleUpdateRequest articleCreateRequest);
 
-    //TODO
-
-    PageResult getArticleOnManagement(String searchContent, String dateTimestamp, int del, PageWrapper pageWrapper);
+    PageResult<List<ArticleVO>> getArticleOnManagement(String searchContent, String dateTimestamp, int del, PageWrapper pageWrapper);
 
     void updateArticlesDelByIds(List<String> groupId, int del);
 

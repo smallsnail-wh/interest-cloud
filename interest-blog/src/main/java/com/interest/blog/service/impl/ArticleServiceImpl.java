@@ -16,8 +16,8 @@ import com.interest.common.model.response.UserHeadInfoVO;
 import com.interest.common.utils.DateUtil;
 import com.interest.common.utils.SecurityAuthenUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -45,19 +45,11 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public PageResult<List<ArticleVO>> getArticle(String searchContent, PageWrapper pageWrapper) {
-        List<ArticleVO> articleList = articleDao.getArticleList(searchContent, pageWrapper);
-        List<UserHeadInfoVO> userHeadInfoVOList = interestUserFeign.getUsersHeadInfoByIds(articleList.stream().map(ArticleVO::getUserId).collect(Collectors.toSet())).getData();
-        articleList.forEach(e -> {
-            for (UserHeadInfoVO userHeadInfoVO:userHeadInfoVOList){
-                if(e.getUserId() == userHeadInfoVO.getUserId()){
-                    e.setUserName(userHeadInfoVO.getUserName());
-                    e.setUserHeadImg(userHeadInfoVO.getHeadImg());
-                }
-            }
-        });
+        List<ArticleVO> articleVOList = articleDao.getArticleList(searchContent, pageWrapper);
+        articleVOSetUserHeadInfo(articleVOList);
 
         int size = articleDao.getArticleSize(searchContent);
-        return new PageResult<>(articleList, size);
+        return new PageResult<>(articleVOList, size);
     }
 
     @Override
@@ -68,7 +60,7 @@ public class ArticleServiceImpl implements ArticleService {
         });
 
         ArticleDetailVO articleDetailVO = articleDao.getArticleById(id);
-        if(articleDetailVO != null){
+        if (articleDetailVO != null) {
             UserHeadInfoVO userHeadInfoVO = interestUserFeign.getUsersHeadInfoById(articleDetailVO.getUserId()).getData();
             articleDetailVO.setUserName(userHeadInfoVO.getUserName());
             articleDetailVO.setUserHeadImg(userHeadInfoVO.getHeadImg());
@@ -90,7 +82,7 @@ public class ArticleServiceImpl implements ArticleService {
     public void createArticle(ArticleCreateRequest articleCreateRequest) {
         int userId = SecurityAuthenUtil.getId();
 
-        Boolean articleSign = stringRedisTemplate.hasKey("article_"+userId);
+        Boolean articleSign = stringRedisTemplate.hasKey("article_" + userId);
         if (articleSign != null && articleSign) {
             throw new ArticleException(ResponseStatus.FAIL_6001.getValue(), ResponseStatus.FAIL_6001.getReasonPhrase());
         }
@@ -110,11 +102,12 @@ public class ArticleServiceImpl implements ArticleService {
 
         articleDao.insertArticle(articleEntity);
 
-        stringRedisTemplate.opsForValue().append("article_"+userId,"1");
+        stringRedisTemplate.opsForValue().append("article_" + userId, "1");
     }
 
     /**
      * 截取文章中的文字
+     *
      * @param htmlStr 文章
      * @return 文章文字
      */
@@ -152,15 +145,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public PageResult<List<ArticleVO>> getArticlesByUserId(int userId, PageWrapper pageWrapper) {
         List<ArticleVO> articleVOList = articleDao.getArticlesListByUserId(userId, pageWrapper);
-        List<UserHeadInfoVO> userHeadInfoVOList = interestUserFeign.getUsersHeadInfoByIds(articleVOList.stream().map(ArticleVO::getUserId).collect(Collectors.toSet())).getData();
-        articleVOList.forEach(e->{
-            userHeadInfoVOList.forEach(userHeadInfoVO -> {
-                if(e.getUserId() == userHeadInfoVO.getUserId()){
-                    e.setUserName(userHeadInfoVO.getUserName());
-                    e.setUserHeadImg(userHeadInfoVO.getHeadImg());
-                }
-            });
-        });
+        articleVOSetUserHeadInfo(articleVOList);
 
         int size = articleDao.getArticlesSizeByUserId(userId);
         return new PageResult<>(articleVOList, size);
@@ -191,21 +176,36 @@ public class ArticleServiceImpl implements ArticleService {
 
     }
 
-    //TODO
-//    @Autowired
-//    private UserDetailService userDetailService;
-
     @Override
-    public PageResult getArticleOnManagement(String searchContent, String dateTimestamp, int del, PageWrapper pageWrapper) {
+    public PageResult<List<ArticleVO>> getArticleOnManagement(String searchContent, String dateTimestamp, int del, PageWrapper pageWrapper) {
         String dayStart = null;
         String dayEnd = null;
-        if (dateTimestamp != null && !"".equals(dateTimestamp)) {
+        if (!StringUtils.isEmpty(dateTimestamp)) {
             dayStart = DateUtil.dayStart(dateTimestamp);
             dayEnd = DateUtil.dayEnd(dateTimestamp);
         }
-        List<ArticleVO> list = articleDao.getArticleListOnManagement(searchContent, dayStart, dayEnd, del, pageWrapper);
+        List<ArticleVO> articleVOList = articleDao.getArticleListOnManagement(searchContent, dayStart, dayEnd, del, pageWrapper);
+        articleVOSetUserHeadInfo(articleVOList);
+
         int size = articleDao.getArticleSizeOnManagement(searchContent, dayStart, dayEnd, del);
-        return new PageResult(list, size);
+        return new PageResult<>(articleVOList, size);
+    }
+
+    /**
+     * 给ArticleVO插入用户信息
+     *
+     * @param articleVOList 文章列表
+     */
+    private void articleVOSetUserHeadInfo(List<ArticleVO> articleVOList) {
+        List<UserHeadInfoVO> userHeadInfoVOList = interestUserFeign.getUsersHeadInfoByIds(articleVOList.stream().map(ArticleVO::getUserId).collect(Collectors.toSet())).getData();
+        articleVOList.forEach(e -> {
+            userHeadInfoVOList.forEach(userHeadInfoVO -> {
+                if (e.getUserId() == userHeadInfoVO.getUserId()) {
+                    e.setUserName(userHeadInfoVO.getUserName());
+                    e.setUserHeadImg(userHeadInfoVO.getHeadImg());
+                }
+            });
+        });
     }
 
     @Override

@@ -24,8 +24,6 @@
         <result column="top" property="top"/>
         <result column="create_time" property="createTime"/>
         <result column="user_id" property="userId"/>
-        <result column="userName" property="userName"/>
-        <result column="userHeadImg" property="userHeadImg"/>
     </resultMap>
 
     <resultMap id="articleDetailVO" type="com.interest.blog.model.response.ArticleDetailVO">
@@ -124,24 +122,20 @@
         </where>
     </update>
 
-    <!--TODO-->
-
     <select id="getArticleListOnManagement" resultMap="articleVO">
-        select a.id,a.title,a.info,a.click_rate,a.comment_count,a.create_time,a.userid,a.top,b.name userName,b.headimg
-        userHeadImg
-        from article a
-        left join sys_user b on a.userid = b.id
+        select id,title,info,click_rate,comment_count,create_time,user_id,top
+        from article
         <where>
             <if test="searchContent != '' and searchContent != null">
-                (a.title like CONCAT('%',#{searchContent},'%') or
-                a.info like CONCAT('%',#{searchContent},'%')) and
+                (title like CONCAT('%',#{searchContent},'%') or
+                info like CONCAT('%',#{searchContent},'%')) and
             </if>
-            a.del = #{del}
+            del = #{del}
             <if test="dayStart != '' and dayStart != null and dayEnd != '' and dayEnd != null">
-                and a.create_time > #{dayStart} and a.create_time &lt; #{dayEnd}
+                and create_time >= #{dayStart} and create_time &lt;= #{dayEnd}
             </if>
         </where>
-        order by a.top desc,a.create_time desc
+        order by top desc,create_time desc
         limit #{pageWrapper.start},#{pageWrapper.pageSize}
     </select>
 

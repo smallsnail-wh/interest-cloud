@@ -3,6 +3,7 @@ package com.interest.blog.controller;
 import com.interest.blog.model.request.ArticleCreateRequest;
 import com.interest.blog.model.request.ArticleUpdateRequest;
 import com.interest.blog.model.response.ArticleDetailVO;
+import com.interest.blog.model.response.ArticleVO;
 import com.interest.blog.picture.PictureService;
 import com.interest.blog.service.ArticleService;
 import com.interest.common.model.PageResult;
@@ -78,25 +79,26 @@ public class ArticleController {
         return new ResponseWrapper<>(pageResult);
     }
 
-    //TODO
-
+    @ApiOperation("控制台获取文章")
     @GetMapping("/admin/articles")
-    public ResponseWrapper<PageResult> getArticles(@RequestParam(value = "searchContent", required = false) String searchContent,
-                                                   @RequestParam(value = "dateTimestamp", required = false) String dateTimestamp,
-                                                   @RequestParam(value = "del", required = false) int del,
-                                                   @RequestParam("pageSize") int pageSize,
-                                                   @RequestParam("page") int page) {
+    public ResponseWrapper<PageResult<List<ArticleVO>>> getArticles(@RequestParam(value = "searchContent", required = false) String searchContent,
+                                                              @RequestParam(value = "dateTimestamp", required = false) String dateTimestamp,
+                                                              @RequestParam(value = "del", required = false) int del,
+                                                              @RequestParam("pageSize") int pageSize,
+                                                              @RequestParam("page") int page) {
         PageWrapper pageWrapper = new PageWrapper(pageSize, page);
-        PageResult pageResult = articleService.getArticleOnManagement(searchContent, dateTimestamp, del, pageWrapper);
+        PageResult<List<ArticleVO>> pageResult = articleService.getArticleOnManagement(searchContent, dateTimestamp, del, pageWrapper);
         return new ResponseWrapper<>(pageResult);
     }
 
+    @ApiOperation("删除文章")
     @DeleteMapping("/admin/articles")
     public ResponseWrapper delArticles(@RequestBody List<String> groupId) {
         articleService.updateArticlesDelByIds(groupId, 1);
         return new ResponseWrapper<>(groupId);
     }
 
+    @ApiOperation("重新发布文章")
     @PatchMapping("/admin/articles")
     public ResponseWrapper republishArticles(@RequestBody List<String> groupId) {
         articleService.updateArticlesDelByIds(groupId, 0);

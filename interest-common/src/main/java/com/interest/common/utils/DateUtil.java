@@ -83,7 +83,8 @@ public class DateUtil {
 	public static String dayEnd(String time) {
 		Instant instant = Instant.ofEpochMilli(Long.valueOf(time));
 		ZoneId zoneId = ZoneId.systemDefault();
-		LocalDateTime localDateTime = LocalDateTime.ofInstant(instant,zoneId).with(TemporalAdjusters.firstDayOfMonth()).withHour(23).withMinute(59).withSecond(59).withNano(999);
+		LocalDateTime localDateTime = LocalDateTime.ofInstant(instant,zoneId).withHour(23).withMinute(59).withSecond(59).withNano(999);
+
 		return String.valueOf(localDateTime.atZone(zoneId).toInstant().toEpochMilli());
 	}
 	
