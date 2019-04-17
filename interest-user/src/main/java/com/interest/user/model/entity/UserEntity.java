@@ -41,4 +41,8 @@ public class UserEntity {
 
     private String qqid;
 
+    private Integer type;
+
+    private Integer status;
+
 }

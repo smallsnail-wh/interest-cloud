@@ -14,8 +14,8 @@ public class EmailEntity {
 	
 	private String content;
 	
-	private String createtime;
+	private String createTime;
 
-	private Integer userid;
+	private Integer userId;
 
 }

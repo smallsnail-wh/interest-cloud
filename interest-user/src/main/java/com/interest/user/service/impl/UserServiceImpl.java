@@ -2,22 +2,18 @@ package com.interest.user.service.impl;
 
 import com.interest.common.feign.InterestBlogFeign;
 import com.interest.common.model.response.UserHeadInfoVO;
-import com.interest.common.utils.ImageUtil;
 import com.interest.user.dao.UserDao;
 import com.interest.user.model.request.UserInfoRequest;
 import com.interest.user.model.response.UserBaseInfoVO;
 import com.interest.user.model.response.UserInfoVO;
 import com.interest.user.model.response.UserVO;
-import com.interest.user.properties.PathsProperties;
 import com.interest.user.service.UserDetailService;
 import com.interest.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -41,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserHeadInfoVO> getUsersHeadInfoByIds(Set<Integer> ids) {
-        if(CollectionUtils.isEmpty(ids)){
+        if (CollectionUtils.isEmpty(ids)) {
             return null;
         }
         return userDao.getUsersHeadInfoByIds(ids);
@@ -66,18 +62,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserHeadImg(int userId, String headImg) {
         String oldHeadImg = userDao.getUserEntityById(userId).getHeadimg();
-        log.info("update | user | update user head img | params: (userId: {},headImg: {})",userId,headImg);
+        log.info("update | user | update user head img | params: (userId: {},headImg: {})", userId, headImg);
         userDao.updateHeadImg(userId, headImg);
         interestBlogFeign.deletePicture(oldHeadImg);
     }
 
     @Override
-    public List<UserVO> getUsersList(String name, Integer userId, int pageSize, int start) {
-        return userDao.getUsersList(name,userId,pageSize,start);
+    public List<UserVO> getUsersList(String name, Integer userId, Integer status, int pageSize, int start) {
+        return userDao.getUsersList(name, userId, status, pageSize, start);
     }
 
     @Override
-    public Integer getUsersSize(String name, Integer userId, int pageSize, int start) {
-        return userDao.getUsersSize(name,userId,pageSize,start);
+    public Integer getUsersSize(String name, Integer userId, Integer status, int pageSize, int start) {
+        return userDao.getUsersSize(name, userId, status, pageSize, start);
     }
 }

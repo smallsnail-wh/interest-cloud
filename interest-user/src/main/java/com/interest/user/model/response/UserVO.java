@@ -35,4 +35,6 @@ public class UserVO {
 
     private String qqid;
 
+    private Integer type;
+
 }

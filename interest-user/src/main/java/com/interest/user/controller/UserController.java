@@ -79,11 +79,12 @@ public class UserController {
     @ApiOperation("获取user表数据")
     @GetMapping("/users")
     public ResponseWrapper<PageResult<List<UserVO>>> getUsersList(@RequestParam(value = "name", required = false) String name,
-                                                         @RequestParam(value = "userId", required = false) Integer userId,
-                                                         @RequestParam("pageSize") int pageSize, @RequestParam("page") int page) {
+                                                                  @RequestParam(value = "userId", required = false) Integer userId,
+                                                                  @RequestParam(value = "status") Integer status,
+                                                                  @RequestParam("pageSize") int pageSize, @RequestParam("page") int page) {
         PageResult<List<UserVO>> pageResult = new PageResult<>();
-        pageResult.setData(userService.getUsersList(name,userId, pageSize, page * pageSize));
-        pageResult.setTotalCount(userService.getUsersSize(name,userId, pageSize, page * pageSize));
+        pageResult.setData(userService.getUsersList(name, userId, status, pageSize, page * pageSize));
+        pageResult.setTotalCount(userService.getUsersSize(name, userId, status, pageSize, page * pageSize));
         log.debug("The method is ending");
         return new ResponseWrapper<>(pageResult);
     }

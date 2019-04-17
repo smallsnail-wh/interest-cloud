@@ -12,6 +12,8 @@
         <result column="create_time" property="createTime"/>
         <result column="githubid" property="githubid"/>
         <result column="qqid" property="qqid"/>
+        <result column="type" property="type"/>
+        <result column="status" property="status"/>
     </resultMap>
 
     <resultMap id="userVO" type="com.interest.user.model.response.UserVO">
@@ -23,6 +25,7 @@
         <result column="create_time" property="createTime"/>
         <result column="githubid" property="githubid"/>
         <result column="qqid" property="qqid"/>
+        <result column="type" property="type"/>
     </resultMap>
 
     <resultMap id="userBaseInfoVO" type="com.interest.user.model.response.UserBaseInfoVO">
@@ -106,11 +109,11 @@
 
     <!-- 获取user列表 -->
     <select id="getUsersList" resultMap="userVO">
-        select id,name,email,headimg,url,create_time,githubid,qqid from user
+        select id,name,email,headimg,url,create_time,githubid,qqid,type from user
         <where>
-            1 = 1
+            status = #{status}
             <if test="name != null and name != ''">
-                and name = like CONCAT('%',#{name},'%')
+                and name like CONCAT('%',#{name},'%')
             </if>
             <if test="userId != null and userId != ''">
                 and id = #{userId}
@@ -125,9 +128,9 @@
     <select id="getUsersSize" resultType="Integer">
         select count(*) from user
         <where>
-            1 = 1
+            status = #{status}
             <if test="name != null and name != ''">
-                and name = like CONCAT('%',#{name},'%')
+                and name like CONCAT('%',#{name},'%')
             </if>
             <if test="userId != null and userId != ''">
                 and id = #{userId}
