@@ -185,7 +185,7 @@ public class ArticleServiceImpl implements ArticleService {
             dayEnd = DateUtil.dayEnd(dateTimestamp);
         }
         List<ArticleVO> articleVOList = articleDao.getArticleListOnManagement(searchContent, dayStart, dayEnd, del, pageWrapper);
-        articleVOSetUserHeadInfo(articleVOList);
+        //articleVOSetUserHeadInfo(articleVOList);
 
         int size = articleDao.getArticleSizeOnManagement(searchContent, dayStart, dayEnd, del);
         return new PageResult<>(articleVOList, size);
