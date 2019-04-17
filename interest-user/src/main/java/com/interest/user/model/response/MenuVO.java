@@ -1,11 +1,12 @@
-package com.interest.user.model.entity;
+package com.interest.user.model.response;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class MenuEntity {
+public class MenuVO {
+
     /**
      * id
      */
@@ -23,16 +24,11 @@ public class MenuEntity {
      */
     private int parentId;
     /**
-     * 排序
-     */
-    private int sort;
-    /**
-     * 描述
-     */
-    private String remark;
-    /**
      * 图标
      */
     private String icon;
-
+    /**
+     * 二级菜单
+     */
+    private List<MenuVO> children;
 }

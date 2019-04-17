@@ -14,6 +14,17 @@
         <result column="qqid" property="qqid"/>
     </resultMap>
 
+    <resultMap id="userVO" type="com.interest.user.model.response.UserVO">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="email" property="email"/>
+        <result column="headimg" property="headimg"/>
+        <result column="url" property="url"/>
+        <result column="create_time" property="createTime"/>
+        <result column="githubid" property="githubid"/>
+        <result column="qqid" property="qqid"/>
+    </resultMap>
+
     <resultMap id="userBaseInfoVO" type="com.interest.user.model.response.UserBaseInfoVO">
         <result column="name" property="name"/>
         <result column="email" property="email"/>
@@ -92,5 +103,36 @@
             id = #{id}
         </where>
     </update>
+
+    <!-- 获取user列表 -->
+    <select id="getUsersList" resultMap="userVO">
+        select id,name,email,headimg,url,create_time,githubid,qqid from user
+        <where>
+            1 = 1
+            <if test="name != null and name != ''">
+                and name = like CONCAT('%',#{name},'%')
+            </if>
+            <if test="userId != null and userId != ''">
+                and id = #{userId}
+            </if>
+        </where>
+        order by id desc
+        <if test="pageSize != null and start != null ">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+    <!-- 获取user列表的总量 -->
+    <select id="getUsersSize" resultType="Integer">
+        select count(*) from user
+        <where>
+            1 = 1
+            <if test="name != null and name != ''">
+                and name = like CONCAT('%',#{name},'%')
+            </if>
+            <if test="userId != null and userId != ''">
+                and id = #{userId}
+            </if>
+        </where>
+    </select>
 
 </mapper>

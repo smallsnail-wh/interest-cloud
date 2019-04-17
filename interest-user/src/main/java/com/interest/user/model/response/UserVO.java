@@ -1,25 +1,19 @@
-package com.interest.user.model.entity;
+package com.interest.user.model.response;
 
 import lombok.Data;
 
 @Data
-public class UserEntity {
+public class UserVO {
+
     /**
      * id
      */
     private int id;
     /**
-     * 姓名
-     */
-    private String loginName;
-    /**
-     * 登录名
+     * 用户名
      */
     private String name;
-    /**
-     * 密码
-     */
-    private String password;
+
     /**
      * 邮箱
      */

@@ -4,6 +4,7 @@ import com.interest.common.model.response.UserHeadInfoVO;
 import com.interest.user.model.entity.UserEntity;
 import com.interest.user.model.response.UserBaseInfoVO;
 import com.interest.user.model.response.UserInfoVO;
+import com.interest.user.model.response.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,4 +27,8 @@ public interface UserDao {
     UserEntity getUserEntityById(@Param("id") Integer id);
 
     void updateHeadImg(@Param("id") Integer id,@Param("headImg") String headImg);
+
+    List<UserVO> getUsersList(@Param("name")String name,@Param("userId") Integer userId,@Param("pageSize") int pageSize,@Param("start") int start);
+
+    Integer getUsersSize(@Param("name")String name,@Param("userId") Integer userId,@Param("pageSize") int pageSize,@Param("start") int start);
 }

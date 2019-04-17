@@ -8,4 +8,25 @@
 		<result column="modules" property="modules" />
 		<result column="describe" property="describe" />
 	</resultMap>
+
+	<resultMap id="roleVO" type="com.interest.user.model.response.RoleVO">
+		<id column="id" property="id" />
+		<result column="role" property="role" />
+		<result column="name" property="name" />
+		<result column="describe" property="describe" />
+	</resultMap>
+
+	<!-- 通过id得到Modules集合 -->
+	<select id="getModulesById" resultType="String">
+		select modules from role
+		<where>
+			id in (select role_id from r_user_role where user_id = #{userId})
+		</where>
+	</select>
+
+	<!-- 得到角色全部数据 -->
+	<select id="allRoles" resultMap="roleVO">
+		select id,role,name,`describe` from role
+	</select>
+
 </mapper>

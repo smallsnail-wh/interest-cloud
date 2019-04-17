@@ -7,6 +7,7 @@ import com.interest.user.dao.UserDao;
 import com.interest.user.model.request.UserInfoRequest;
 import com.interest.user.model.response.UserBaseInfoVO;
 import com.interest.user.model.response.UserInfoVO;
+import com.interest.user.model.response.UserVO;
 import com.interest.user.properties.PathsProperties;
 import com.interest.user.service.UserDetailService;
 import com.interest.user.service.UserService;
@@ -68,5 +69,15 @@ public class UserServiceImpl implements UserService {
         log.info("update | user | update user head img | params: (userId: {},headImg: {})",userId,headImg);
         userDao.updateHeadImg(userId, headImg);
         interestBlogFeign.deletePicture(oldHeadImg);
+    }
+
+    @Override
+    public List<UserVO> getUsersList(String name, Integer userId, int pageSize, int start) {
+        return userDao.getUsersList(name,userId,pageSize,start);
+    }
+
+    @Override
+    public Integer getUsersSize(String name, Integer userId, int pageSize, int start) {
+        return userDao.getUsersSize(name,userId,pageSize,start);
     }
 }

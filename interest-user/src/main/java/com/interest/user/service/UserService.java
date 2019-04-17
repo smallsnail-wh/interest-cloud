@@ -5,6 +5,7 @@ import com.interest.common.model.response.UserHeadInfoVO;
 import com.interest.user.model.request.UserInfoRequest;
 import com.interest.user.model.response.UserBaseInfoVO;
 import com.interest.user.model.response.UserInfoVO;
+import com.interest.user.model.response.UserVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.parameters.P;
 
@@ -24,4 +25,8 @@ public interface UserService {
     void updateUserInfoByUserId(int userId, UserInfoRequest userInfoRequest);
 
     void updateUserHeadImg(int userId, String headImg);
+
+    List<UserVO> getUsersList(String name, Integer userId, int pageSize, int start);
+
+    Integer getUsersSize(String name, Integer userId, int pageSize, int start);
 }
