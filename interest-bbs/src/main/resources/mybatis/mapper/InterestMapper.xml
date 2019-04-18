@@ -18,6 +18,7 @@
         <result column="title" property="title"/>
         <result column="info" property="info"/>
         <result column="image" property="image"/>
+        <result column="sort" property="sort"/>
     </resultMap>
 
     <resultMap id="bannerVO"
@@ -60,5 +61,42 @@
     <select id="getInterestsTitles" resultMap="interestOnlyTitleVO">
         select id,title from interest
     </select>
+
+    <insert id="insertEntity" parameterType="InterestRequest">
+		insert into interest (title,info,content,image)
+	  	values (#{title},#{info},#{content},#{image})
+	</insert>
+
+    <update id="updateEntity" parameterType="InterestUpdateRequest">
+        update interest set title = #{title},info = #{info},content = #{content},image = #{image},sort = #{sort}
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <select id="interestList" resultMap="interestNoContentVO">
+        select id,title,info,sort from interest
+        order by sort asc
+        <if test="pageSize != null and start != null ">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+
+    <select id="interestSize" resultType="Integer">
+		select count(1) from interest
+	</select>
+
+    <delete id="deleteInterests">
+        delete from interest
+        <where>
+            <if test="groupId !=null">
+                id in
+                <foreach collection="groupId" item="item" index="index"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </delete>
 
 </mapper>

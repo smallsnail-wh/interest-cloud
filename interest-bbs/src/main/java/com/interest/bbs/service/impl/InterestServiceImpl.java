@@ -2,11 +2,14 @@ package com.interest.bbs.service.impl;
 
 import com.interest.bbs.dao.InterestDao;
 import com.interest.bbs.model.entity.InterestEntity;
+import com.interest.bbs.model.request.InterestRequest;
+import com.interest.bbs.model.request.InterestUpdateRequest;
 import com.interest.bbs.model.response.BannerVO;
 import com.interest.bbs.model.response.InterestNoContentVO;
 import com.interest.bbs.model.response.InterestOnlyTitleVO;
 import com.interest.bbs.model.response.InterestVO;
 import com.interest.bbs.service.InterestService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Slf4j
 public class InterestServiceImpl implements InterestService {
 
     @Autowired
@@ -43,5 +47,31 @@ public class InterestServiceImpl implements InterestService {
     @Override
     public List<InterestOnlyTitleVO> getInterestsTitles() {
         return interestDao.getInterestsTitles();
+    }
+
+    @Override
+    public void insertEntity(InterestRequest interestRequest) {
+        log.info("insert | interest | paras: {}",interestRequest);
+        interestDao.insertEntity(interestRequest);
+    }
+
+    @Override
+    public void updateEntity(InterestUpdateRequest interestUpdateRequest) {
+        interestDao.updateEntity(interestUpdateRequest);
+    }
+
+    @Override
+    public List<InterestNoContentVO> interestList(int pageSize, int start) {
+        return interestDao.interestList(pageSize,start);
+    }
+
+    @Override
+    public Integer interestSize() {
+        return interestDao.interestSize();
+    }
+
+    @Override
+    public void deleteInterests(List<String> groupId) {
+        interestDao.deleteInterests(groupId);
     }
 }

@@ -1,9 +1,10 @@
-package com.interest.bbs.model.response;
+package com.interest.bbs.model.request;
 
 import lombok.Data;
 
 @Data
-public class InterestNoContentVO {
+public class InterestUpdateRequest {
+
     private Integer id;
 
     private String title;
@@ -12,5 +13,8 @@ public class InterestNoContentVO {
 
     private String image;
 
+    private String content;
+
     private Integer sort;
+
 }

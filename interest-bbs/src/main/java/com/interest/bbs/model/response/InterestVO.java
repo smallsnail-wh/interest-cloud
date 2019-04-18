@@ -15,4 +15,6 @@ public class InterestVO {
 
     private String image;
 
+    private Integer sort;
+
 }
