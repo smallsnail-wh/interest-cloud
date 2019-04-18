@@ -4,8 +4,10 @@ import com.interest.bbs.dao.PostCardDao;
 import com.interest.bbs.model.entity.PostCardEntity;
 import com.interest.bbs.model.request.PostCardRequest;
 import com.interest.bbs.model.response.PostCardInfoVO;
+import com.interest.bbs.model.response.PostCardNoUserVO;
 import com.interest.bbs.model.response.PostCardVO;
 import com.interest.bbs.service.PostCardService;
+import com.interest.bbs.service.ReplyCardService;
 import com.interest.common.feign.InterestUserFeign;
 import com.interest.common.model.response.UserHeadInfoVO;
 import com.interest.common.utils.DateUtil;
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,10 +29,13 @@ public class PostCardServiceImpl implements PostCardService {
     private PostCardDao postCardDao;
 
     @Autowired
+    private ReplyCardService replyCardService;
+
+    @Autowired
     private InterestUserFeign interestUserFeign;
 
     @Override
-    public List<PostCardVO> postcardList(int interestId, int pageSize, int start) {
+    public List<PostCardVO> postcardList(Integer interestId, int pageSize, int start) {
 
         List<PostCardVO> postCardVOList = postCardDao.postcardList(interestId, pageSize, start);
 
@@ -48,7 +54,7 @@ public class PostCardServiceImpl implements PostCardService {
     }
 
     @Override
-    public Integer postcardSize(int interestId, int pageSize, int start) {
+    public Integer postcardSize(Integer interestId, int pageSize, int start) {
         return postCardDao.postcardSize(interestId, pageSize, start);
     }
 
@@ -86,6 +92,24 @@ public class PostCardServiceImpl implements PostCardService {
     public void updateReplyTime(Integer postCardId, String createTime) {
         log.info("update | post_card | params : (postCardId : {},createTime : {})", postCardId, createTime);
         postCardDao.updateReplyTime(postCardId, createTime);
+    }
+
+    @Override
+    public List<PostCardNoUserVO> getPostcardsNoUserList(Integer interestId, int pageSize, int start) {
+        return postCardDao.getPostcardsNoUserList(interestId,pageSize,start);
+    }
+
+    @Override
+    public Integer getPostcardsNoUserSize(Integer interestId, int pageSize, int start) {
+        return postCardDao.getPostcardsNoUserSize(interestId,pageSize,start);
+    }
+
+    @Override
+    @Transactional
+    public void deletePostcards(List<String> groupId) {
+        log.info("delete | post_card | delete postcard | ids: {}",groupId);
+        postCardDao.deletePostcards(groupId);
+        replyCardService.delReplyByPostcardId(groupId);
     }
 
 }

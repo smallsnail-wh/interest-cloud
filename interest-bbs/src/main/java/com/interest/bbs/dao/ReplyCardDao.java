@@ -23,4 +23,6 @@ public interface ReplyCardDao {
     void insertEntity(ReplyCardEntity replyCardEntity);
 
     List<MsgContentVO> getMsgContentByIds(@Param("ids") Set<Integer> ids);
+
+    void delReplyByPostcardId(@Param("postcardIds") List<String> postcardIds);
 }

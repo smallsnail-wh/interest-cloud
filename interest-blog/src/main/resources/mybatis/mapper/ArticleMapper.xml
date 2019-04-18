@@ -148,7 +148,7 @@
             </if>
             del = #{del}
             <if test="dayStart != '' and dayStart != null and dayEnd != '' and dayEnd != null">
-                and create_time > #{dayStart} and create_time &lt; #{dayEnd}
+                and create_time >= #{dayStart} and create_time &lt;= #{dayEnd}
             </if>
         </where>
     </select>

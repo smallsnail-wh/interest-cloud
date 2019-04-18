@@ -2,6 +2,7 @@ package com.interest.bbs.controller;
 
 import com.interest.bbs.model.request.PostCardRequest;
 import com.interest.bbs.model.response.PostCardInfoVO;
+import com.interest.bbs.model.response.PostCardNoUserVO;
 import com.interest.bbs.model.response.PostCardVO;
 import com.interest.bbs.service.PostCardService;
 import com.interest.common.model.PageResult;
@@ -20,7 +21,7 @@ public class PostCardController {
 
     @ApiOperation("获取发帖")
     @GetMapping("/public/postcards")
-    public ResponseWrapper<PageResult> postcardList(@RequestParam(value = "interestId", required = false) int interestId,
+    public ResponseWrapper<PageResult> postcardList(@RequestParam(value = "interestId", required = false) Integer interestId,
                                                     @RequestParam("pageSize") int pageSize, @RequestParam("page") int page) {
         PageResult<List<PostCardVO>> pageResult = new PageResult<>();
         pageResult.setData(postCardService.postcardList(interestId, pageSize, page * pageSize));
@@ -39,6 +40,23 @@ public class PostCardController {
     @GetMapping("/public/postcards/postcard")
     public ResponseWrapper<PostCardInfoVO> postcardGet(@RequestParam("id") int id) {
         return new ResponseWrapper<>(postCardService.getPostcard(id));
+    }
+
+    @ApiOperation("获取发帖,不加用户信息")
+    @GetMapping("/admin/postcards")
+    public ResponseWrapper<PageResult> getPostcardsNoUser(@RequestParam(value = "interestId", required = false) Integer interestId,
+                                                    @RequestParam("pageSize") int pageSize, @RequestParam("page") int page) {
+        PageResult<List<PostCardNoUserVO>> pageResult = new PageResult<>();
+        pageResult.setData(postCardService.getPostcardsNoUserList(interestId, pageSize, page * pageSize));
+        pageResult.setTotalCount(postCardService.getPostcardsNoUserSize(interestId, pageSize, page * pageSize));
+        return new ResponseWrapper<>(pageResult);
+    }
+
+    @ApiOperation("删除发帖")
+    @DeleteMapping("/postcards")
+    public ResponseWrapper<List<String>> deletePostcards(@RequestBody List<String> groupId) {
+        postCardService.deletePostcards(groupId);
+        return new ResponseWrapper<>(groupId);
     }
 
 }

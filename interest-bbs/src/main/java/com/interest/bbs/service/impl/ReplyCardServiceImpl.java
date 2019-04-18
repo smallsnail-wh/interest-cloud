@@ -97,4 +97,10 @@ public class ReplyCardServiceImpl implements ReplyCardService {
     public List<MsgContentVO> getMsgContentByIds(Set<Integer> ids) {
         return replyCardDao.getMsgContentByIds(ids);
     }
+
+    @Override
+    public void delReplyByPostcardId(List<String> postcardIds) {
+        log.info("delete | reply_card | delete reply card | postcardIds: {}",postcardIds);
+        replyCardDao.delReplyByPostcardId(postcardIds);
+    }
 }

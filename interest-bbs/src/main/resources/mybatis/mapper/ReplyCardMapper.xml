@@ -73,4 +73,17 @@
 		</where>
 	</select>
 
+	<delete id="delReplyByPostcardId">
+		delete from reply_card
+		<where>
+			<if test="postcardIds !=null">
+				post_card_id in
+				<foreach collection="postcardIds" item="item" index="index"
+						 open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</delete>
+
 </mapper>

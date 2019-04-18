@@ -3,6 +3,7 @@ package com.interest.bbs.dao;
 import com.interest.bbs.model.entity.InterestEntity;
 import com.interest.bbs.model.response.BannerVO;
 import com.interest.bbs.model.response.InterestNoContentVO;
+import com.interest.bbs.model.response.InterestOnlyTitleVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,4 +18,5 @@ public interface InterestDao {
 
     InterestEntity getInterestById(@Param("id") int id);
 
+    List<InterestOnlyTitleVO> getInterestsTitles();
 }

@@ -17,4 +17,6 @@ public interface ReplyCardService {
     void insertEntity(ReplyCardRequest replyCardRequest);
 
     List<MsgContentVO> getMsgContentByIds(Set<Integer> ids);
+
+    void delReplyByPostcardId(List<String> postcardIds);
 }

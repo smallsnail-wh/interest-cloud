@@ -26,6 +26,12 @@
         <result column="image" property="image"/>
     </resultMap>
 
+    <resultMap id="interestOnlyTitleVO"
+               type="com.interest.bbs.model.response.InterestOnlyTitleVO">
+        <id column="id" property="id"/>
+        <result column="image" property="image"/>
+    </resultMap>
+
     <select id="getBanners" resultMap="bannerVO">
         select id,image from interest
         <where>
@@ -49,6 +55,10 @@
         <where>
             id = #{id}
         </where>
+    </select>
+
+    <select id="getInterestsTitles" resultMap="interestOnlyTitleVO">
+        select id,title from interest
     </select>
 
 </mapper>

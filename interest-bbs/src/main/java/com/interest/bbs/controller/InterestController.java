@@ -2,6 +2,7 @@ package com.interest.bbs.controller;
 
 import com.interest.bbs.model.response.BannerVO;
 import com.interest.bbs.model.response.InterestNoContentVO;
+import com.interest.bbs.model.response.InterestOnlyTitleVO;
 import com.interest.bbs.model.response.InterestVO;
 import com.interest.bbs.service.InterestService;
 import com.interest.common.model.ResponseWrapper;
@@ -35,6 +36,12 @@ public class InterestController {
     @GetMapping("/public/interests/interest")
     public ResponseWrapper<InterestVO> interestGetById(@RequestParam(value = "id") int id) {
         return new ResponseWrapper<>(interestService.getInterestById(id));
+    }
+
+    @ApiOperation("获取兴趣ID+title")
+    @GetMapping("/admin/interests/titles")
+    public ResponseWrapper<List<InterestOnlyTitleVO>> getInterestsTitles() {
+        return new ResponseWrapper<>(interestService.getInterestsTitles());
     }
 
 }

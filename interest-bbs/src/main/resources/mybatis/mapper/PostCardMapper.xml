@@ -31,6 +31,17 @@
 		<result column="user_id" property="userId" />
 	</resultMap>
 
+	<resultMap id="postCardNoUserVO"
+			   type="com.interest.bbs.model.response.PostCardNoUserVO">
+		<id column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="content" property="content" />
+		<result column="interest_id" property="interestId" />
+		<result column="create_time" property="createTime" />
+		<result column="reply_time" property="replyTime" />
+		<result column="user_id" property="userId" />
+	</resultMap>
+
 	<select id="postcardList" resultMap="postCardModelMap">
 		select id,title,content,reply_time,user_id
 		from post_card
@@ -71,5 +82,39 @@
 			id = #{id}
 		</where>
 	</update>
+
+	<select id="getPostcardsNoUserList" resultMap="postCardNoUserVO">
+		select *
+		from post_card
+		<where>
+			<if test="interestId != null and interestId != ''">
+				interest_id = #{interestId}
+			</if>
+		</where>
+		order by reply_time desc
+		limit #{start},#{pageSize}
+	</select>
+
+	<select id="getPostcardsNoUserSize" resultType="Integer">
+		select count(*) from post_card
+		<where>
+			<if test="interestId != null and interestId != ''">
+				interest_id = #{interestId}
+			</if>
+		</where>
+	</select>
+
+	<delete id="deletePostcards">
+		delete from post_card
+		<where>
+			<if test="groupId !=null">
+				id in
+				<foreach collection="groupId" item="item" index="index"
+						 open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</delete>
 
 </mapper>

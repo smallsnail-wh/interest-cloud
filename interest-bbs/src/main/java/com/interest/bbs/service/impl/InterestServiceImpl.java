@@ -4,6 +4,7 @@ import com.interest.bbs.dao.InterestDao;
 import com.interest.bbs.model.entity.InterestEntity;
 import com.interest.bbs.model.response.BannerVO;
 import com.interest.bbs.model.response.InterestNoContentVO;
+import com.interest.bbs.model.response.InterestOnlyTitleVO;
 import com.interest.bbs.model.response.InterestVO;
 import com.interest.bbs.service.InterestService;
 import org.springframework.beans.BeanUtils;
@@ -37,5 +38,10 @@ public class InterestServiceImpl implements InterestService {
         BeanUtils.copyProperties(interestEntity, interestVO);
         return interestVO;
 
+    }
+
+    @Override
+    public List<InterestOnlyTitleVO> getInterestsTitles() {
+        return interestDao.getInterestsTitles();
     }
 }
