@@ -68,12 +68,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserVO> getUsersList(String name, Integer userId, Integer status, int pageSize, int start) {
-        return userDao.getUsersList(name, userId, status, pageSize, start);
+    public List<UserVO> getUsersList(String name, Integer userId, Integer status, Integer type, int pageSize, int start) {
+        return userDao.getUsersList(name, userId, status, type, pageSize, start);
     }
 
     @Override
-    public Integer getUsersSize(String name, Integer userId, Integer status, int pageSize, int start) {
-        return userDao.getUsersSize(name, userId, status, pageSize, start);
+    public Integer getUsersSize(String name, Integer userId, Integer status, Integer type, int pageSize, int start) {
+        return userDao.getUsersSize(name, userId, status, type, pageSize, start);
+    }
+
+    @Override
+    public void updateUsersStatus(List<String> groupId,Integer Status) {
+        log.info("update | user | update user status | groupId: {}, status: {}", groupId, Status);
+        userDao.updateUsersStatus(groupId, Status);
     }
 }

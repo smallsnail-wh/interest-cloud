@@ -28,7 +28,9 @@ public interface UserDao {
 
     void updateHeadImg(@Param("id") Integer id, @Param("headImg") String headImg);
 
-    List<UserVO> getUsersList(@Param("name") String name, @Param("userId") Integer userId, @Param("status") Integer status, @Param("pageSize") int pageSize, @Param("start") int start);
+    List<UserVO> getUsersList(@Param("name") String name, @Param("userId") Integer userId, @Param("status") Integer status, @Param("type") Integer type, @Param("pageSize") int pageSize, @Param("start") int start);
 
-    Integer getUsersSize(@Param("name") String name, @Param("userId") Integer userId, @Param("status") Integer status, @Param("pageSize") int pageSize, @Param("start") int start);
+    Integer getUsersSize(@Param("name") String name, @Param("userId") Integer userId, @Param("status") Integer status, @Param("type") Integer type, @Param("pageSize") int pageSize, @Param("start") int start);
+
+    void updateUsersStatus(@Param("groupId") List<String> groupId,@Param("status") Integer status);
 }

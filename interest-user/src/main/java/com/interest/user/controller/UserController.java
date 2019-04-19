@@ -77,16 +77,30 @@ public class UserController {
     }
 
     @ApiOperation("获取user表数据")
-    @GetMapping("/users")
+    @GetMapping("/admin/users")
     public ResponseWrapper<PageResult<List<UserVO>>> getUsersList(@RequestParam(value = "name", required = false) String name,
                                                                   @RequestParam(value = "userId", required = false) Integer userId,
                                                                   @RequestParam(value = "status") Integer status,
+                                                                  @RequestParam(value = "type") Integer type,
                                                                   @RequestParam("pageSize") int pageSize, @RequestParam("page") int page) {
         PageResult<List<UserVO>> pageResult = new PageResult<>();
-        pageResult.setData(userService.getUsersList(name, userId, status, pageSize, page * pageSize));
-        pageResult.setTotalCount(userService.getUsersSize(name, userId, status, pageSize, page * pageSize));
+        pageResult.setData(userService.getUsersList(name, userId, status,type, pageSize, page * pageSize));
+        pageResult.setTotalCount(userService.getUsersSize(name, userId, status,type, pageSize, page * pageSize));
         log.debug("The method is ending");
         return new ResponseWrapper<>(pageResult);
     }
 
+    @ApiOperation("删除用户")
+    @DeleteMapping("/admin/users")
+    public ResponseWrapper<List<String>> deleteUsers(@RequestBody List<String> groupId) {
+        userService.updateUsersStatus(groupId,1);
+        return new ResponseWrapper<>(groupId);
+    }
+
+    @ApiOperation("恢复用户")
+    @PatchMapping("/admin/users")
+    public ResponseWrapper<List<String>> recoverUsers(@RequestBody List<String> groupId) {
+        userService.updateUsersStatus(groupId,0);
+        return new ResponseWrapper<>(groupId);
+    }
 }

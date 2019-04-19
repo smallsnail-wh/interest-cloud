@@ -111,7 +111,7 @@
     <select id="getUsersList" resultMap="userVO">
         select id,name,email,headimg,url,create_time,githubid,qqid,type from user
         <where>
-            status = #{status}
+            status = #{status} and type = #{type}
             <if test="name != null and name != ''">
                 and name like CONCAT('%',#{name},'%')
             </if>
@@ -128,7 +128,7 @@
     <select id="getUsersSize" resultType="Integer">
         select count(*) from user
         <where>
-            status = #{status}
+            status = #{status} and type = #{type}
             <if test="name != null and name != ''">
                 and name like CONCAT('%',#{name},'%')
             </if>
@@ -137,5 +137,18 @@
             </if>
         </where>
     </select>
+
+    <update id="updateUsersStatus">
+         update user set status = #{status}
+        <where>
+            <if test="groupId !=null">
+                id in
+                <foreach collection="groupId" item="item" index="index"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </update>
 
 </mapper>

@@ -24,7 +24,9 @@ public interface UserService {
 
     void updateUserHeadImg(int userId, String headImg);
 
-    List<UserVO> getUsersList(String name, Integer userId, Integer status, int pageSize, int start);
+    List<UserVO> getUsersList(String name, Integer userId, Integer status,Integer type, int pageSize, int start);
 
-    Integer getUsersSize(String name, Integer userId, Integer status, int pageSize, int start);
+    Integer getUsersSize(String name, Integer userId, Integer status,Integer type, int pageSize, int start);
+
+    void updateUsersStatus(List<String> groupId,Integer status);
 }
