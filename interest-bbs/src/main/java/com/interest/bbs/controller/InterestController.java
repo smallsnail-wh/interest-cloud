@@ -79,4 +79,18 @@ public class InterestController {
         return new ResponseWrapper<>(groupId);
     }
 
+    @ApiOperation("添加banner")
+    @PutMapping("/admin/banners/set")
+    public ResponseWrapper<List<String>> bannersSet(@RequestBody List<String> groupId) {
+        interestService.updateBanners(groupId, 1);
+        return new ResponseWrapper<>(groupId);
+    }
+
+    @ApiOperation("取消banner")
+    @PutMapping("/admin/banners/del")
+    public ResponseWrapper<List<String>> bannersDel(@RequestBody List<String> groupId) {
+        interestService.updateBanners(groupId, 0);
+        return new ResponseWrapper<>(groupId);
+    }
+
 }

@@ -13,4 +13,6 @@ public class InterestNoContentVO {
     private String image;
 
     private Integer sort;
+
+    private Integer banner;
 }

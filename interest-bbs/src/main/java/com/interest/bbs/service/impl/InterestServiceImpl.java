@@ -74,4 +74,9 @@ public class InterestServiceImpl implements InterestService {
     public void deleteInterests(List<String> groupId) {
         interestDao.deleteInterests(groupId);
     }
+
+    @Override
+    public void updateBanners(List<String> groupId, int sign) {
+        interestDao.updateBanners(groupId,sign);
+    }
 }

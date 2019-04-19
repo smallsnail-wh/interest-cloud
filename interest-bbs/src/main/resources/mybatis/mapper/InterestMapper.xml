@@ -19,6 +19,7 @@
         <result column="info" property="info"/>
         <result column="image" property="image"/>
         <result column="sort" property="sort"/>
+        <result column="banner" property="banner"/>
     </resultMap>
 
     <resultMap id="bannerVO"
@@ -75,7 +76,7 @@
     </update>
 
     <select id="interestList" resultMap="interestNoContentVO">
-        select id,title,info,sort from interest
+        select id,title,info,sort,banner from interest
         order by sort asc
         <if test="pageSize != null and start != null ">
             limit #{start},#{pageSize}
@@ -98,5 +99,18 @@
             </if>
         </where>
     </delete>
+
+    <update id="updateBanners">
+        update interest set banner = #{banner}
+        <where>
+            <if test="groupId !=null">
+                id in
+                <foreach collection="groupId" item="item" index="index"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </update>
 
 </mapper>

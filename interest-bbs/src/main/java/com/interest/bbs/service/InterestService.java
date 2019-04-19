@@ -28,4 +28,6 @@ public interface InterestService {
     Integer interestSize();
 
     void deleteInterests(List<String> groupId);
+
+    void updateBanners(List<String> groupId, int sign);
 }

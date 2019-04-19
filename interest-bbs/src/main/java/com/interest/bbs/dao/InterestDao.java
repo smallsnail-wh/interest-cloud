@@ -32,4 +32,5 @@ public interface InterestDao {
 
     void deleteInterests(@Param("groupId") List<String> groupId);
 
+    void updateBanners(@Param("groupId") List<String> groupId,@Param("banner") int sign);
 }
