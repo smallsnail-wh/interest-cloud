@@ -9,4 +9,5 @@ public interface UserDetailDao {
 
     void updateUserInfo(@Param("userId")int userId, @Param("info") String info, @Param("location") String location, @Param("skill") String skill);
 
+    void insert(UserDetailEntity userDetailEntity);
 }

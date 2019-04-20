@@ -4,6 +4,7 @@ import com.interest.common.model.PageResult;
 import com.interest.common.model.ResponseWrapper;
 import com.interest.common.model.response.UserHeadInfoVO;
 import com.interest.common.utils.SecurityAuthenUtil;
+import com.interest.user.model.request.SystemUserRequest;
 import com.interest.user.model.request.UserInfoRequest;
 import com.interest.user.model.response.UserBaseInfoVO;
 import com.interest.user.model.response.UserInfoVO;
@@ -12,6 +13,7 @@ import com.interest.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -78,6 +80,7 @@ public class UserController {
 
     @ApiOperation("获取user表数据")
     @GetMapping("/admin/users")
+    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_BASE_ADMIN')")
     public ResponseWrapper<PageResult<List<UserVO>>> getUsersList(@RequestParam(value = "name", required = false) String name,
                                                                   @RequestParam(value = "userId", required = false) Integer userId,
                                                                   @RequestParam(value = "status") Integer status,
@@ -92,6 +95,7 @@ public class UserController {
 
     @ApiOperation("删除用户")
     @DeleteMapping("/admin/users")
+    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_BASE_ADMIN')")
     public ResponseWrapper<List<String>> deleteUsers(@RequestBody List<String> groupId) {
         userService.updateUsersStatus(groupId,1);
         return new ResponseWrapper<>(groupId);
@@ -99,8 +103,27 @@ public class UserController {
 
     @ApiOperation("恢复用户")
     @PatchMapping("/admin/users")
+    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_BASE_ADMIN')")
     public ResponseWrapper<List<String>> recoverUsers(@RequestBody List<String> groupId) {
         userService.updateUsersStatus(groupId,0);
         return new ResponseWrapper<>(groupId);
+    }
+
+    @ApiOperation("新增系统用户")
+    @PostMapping("/admin/users/user")
+    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN')")
+    public ResponseWrapper<String> insertSystemUser(@RequestBody SystemUserRequest systemUserRequest){
+
+        userService.insertSystemUser(systemUserRequest);
+        return new ResponseWrapper<>("success");
+    }
+
+    @ApiOperation("修改系统用户")
+    @PutMapping("/admin/users/user")
+    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN')")
+    public ResponseWrapper<String> updateSystemUser(@RequestBody SystemUserRequest systemUserRequest){
+
+        userService.updateSystemUser(systemUserRequest);
+        return new ResponseWrapper<>("success");
     }
 }

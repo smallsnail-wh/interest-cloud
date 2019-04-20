@@ -19,6 +19,7 @@
     <resultMap id="userVO" type="com.interest.user.model.response.UserVO">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
+        <result column="login_name" property="loginName"/>
         <result column="email" property="email"/>
         <result column="headimg" property="headimg"/>
         <result column="url" property="url"/>
@@ -109,7 +110,8 @@
 
     <!-- 获取user列表 -->
     <select id="getUsersList" resultMap="userVO">
-        select id,name,email,headimg,url,create_time,githubid,qqid,type from user
+        select id,name,login_name,email,headimg,url,create_time,githubid,qqid,type
+        from user
         <where>
             status = #{status} and type = #{type}
             <if test="name != null and name != ''">
@@ -148,6 +150,26 @@
                     #{item}
                 </foreach>
             </if>
+        </where>
+    </update>
+
+    <insert id="insertSystemUser" parameterType="UserEntity">
+        <selectKey keyProperty="id" resultType="java.lang.Integer"
+                   order="AFTER">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into user (name,login_name,password,create_time,type)
+        values
+        (#{name},#{loginName},#{password},#{createTime},#{type})
+    </insert>
+
+    <update id="updateSystemUser" parameterType="UserEntity">
+        update user set
+        name = #{name},
+        login_name = #{loginName},
+        password = #{password}
+        <where>
+            id = #{id}
         </where>
     </update>
 

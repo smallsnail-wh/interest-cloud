@@ -12,6 +12,7 @@
         <result column="create_time" property="createTime"/>
         <result column="githubid" property="githubid"/>
         <result column="qqid" property="qqid"/>
+        <result column="status" property="status"/>
     </resultMap>
 
     <select id="getUserEntityById" resultMap="userMap">

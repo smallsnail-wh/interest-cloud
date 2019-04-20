@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class UserDetailEntity {
-    private int id;
+    private Integer id;
 
-    private int userid;
+    private Integer userid;
 
     private String info;
 

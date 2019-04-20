@@ -7,7 +7,7 @@ public class UserEntity {
     /**
      * id
      */
-    private int id;
+    private Integer id;
     /**
      * 姓名
      */

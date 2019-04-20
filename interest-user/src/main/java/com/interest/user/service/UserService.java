@@ -2,6 +2,7 @@ package com.interest.user.service;
 
 
 import com.interest.common.model.response.UserHeadInfoVO;
+import com.interest.user.model.request.SystemUserRequest;
 import com.interest.user.model.request.UserInfoRequest;
 import com.interest.user.model.response.UserBaseInfoVO;
 import com.interest.user.model.response.UserInfoVO;
@@ -29,4 +30,8 @@ public interface UserService {
     Integer getUsersSize(String name, Integer userId, Integer status,Integer type, int pageSize, int start);
 
     void updateUsersStatus(List<String> groupId,Integer status);
+
+    void insertSystemUser(SystemUserRequest systemUserRequest);
+
+    void updateSystemUser(SystemUserRequest systemUserRequest);
 }

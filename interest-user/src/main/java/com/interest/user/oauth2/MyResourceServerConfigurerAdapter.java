@@ -5,6 +5,7 @@ import com.interest.common.exception.handler.InterestAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -13,6 +14,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 
 @Configuration
 @EnableResourceServer
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MyResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter {
 
 
@@ -35,7 +37,6 @@ public class MyResourceServerConfigurerAdapter extends ResourceServerConfigurerA
                 .antMatchers("/public/**").permitAll()
                 .antMatchers("/**/*.jpg", "/**/*.png", "/**/*.jpeg").permitAll()
                 .antMatchers("/interest/**").permitAll()
-                .antMatchers("/users/**", "/menus/**", "/roles/**", "/admin/**").hasRole("ADMIN")
                 .antMatchers("/**/*.html", "/**/*.css", "/**/*.js", "/**/swagger-resources/**", "/**/*.woff2", "/**/v2/**").permitAll()
                 .anyRequest()
                 .authenticated();

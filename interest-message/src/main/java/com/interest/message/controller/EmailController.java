@@ -8,6 +8,7 @@ import com.interest.message.model.response.EmailVO;
 import com.interest.message.service.EmailService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class EmailController {
 
     @ApiOperation("查询邮件")
     @GetMapping("/emails")
+    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_BASE_ADMIN')")
     public ResponseWrapper<PageResult<List<EmailVO>>> getEmailsList(@RequestParam("pageSize") int pageSize, @RequestParam("page") int page) {
         PageResult<List<EmailVO>> pageResult = new PageResult<>();
         pageResult.setData(emailService.getEmailsList(pageSize, page * pageSize));
@@ -38,6 +40,7 @@ public class EmailController {
 
     @ApiOperation("删除邮件")
     @DeleteMapping("/emails")
+    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_BASE_ADMIN')")
     public ResponseWrapper<List<String>> deleteEmails(@RequestBody List<String> groupId) {
         emailService.deleteEmails(groupId);
         return new ResponseWrapper<>(groupId);

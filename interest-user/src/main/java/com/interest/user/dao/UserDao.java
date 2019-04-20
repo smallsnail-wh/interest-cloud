@@ -33,4 +33,8 @@ public interface UserDao {
     Integer getUsersSize(@Param("name") String name, @Param("userId") Integer userId, @Param("status") Integer status, @Param("type") Integer type, @Param("pageSize") int pageSize, @Param("start") int start);
 
     void updateUsersStatus(@Param("groupId") List<String> groupId,@Param("status") Integer status);
+
+    void insertSystemUser(UserEntity userEntity);
+
+    void updateSystemUser(UserEntity userEntity);
 }

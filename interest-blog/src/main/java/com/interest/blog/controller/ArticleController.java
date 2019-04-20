@@ -12,6 +12,7 @@ import com.interest.common.model.ResponseWrapper;
 import com.interest.common.utils.SecurityAuthenUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -81,6 +82,7 @@ public class ArticleController {
 
     @ApiOperation("控制台获取文章")
     @GetMapping("/admin/articles")
+    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_BASE_ADMIN')")
     public ResponseWrapper<PageResult<List<ArticleVO>>> getArticles(@RequestParam(value = "searchContent", required = false) String searchContent,
                                                               @RequestParam(value = "dateTimestamp", required = false) String dateTimestamp,
                                                               @RequestParam(value = "del", required = false) int del,
@@ -93,6 +95,7 @@ public class ArticleController {
 
     @ApiOperation("删除文章")
     @DeleteMapping("/admin/articles")
+    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_BASE_ADMIN')")
     public ResponseWrapper delArticles(@RequestBody List<String> groupId) {
         articleService.updateArticlesDelByIds(groupId, 1);
         return new ResponseWrapper<>(groupId);
@@ -100,12 +103,15 @@ public class ArticleController {
 
     @ApiOperation("重新发布文章")
     @PatchMapping("/admin/articles")
+    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_BASE_ADMIN')")
     public ResponseWrapper republishArticles(@RequestBody List<String> groupId) {
         articleService.updateArticlesDelByIds(groupId, 0);
         return new ResponseWrapper<>(groupId);
     }
 
+    @ApiOperation("修改文章置顶状态")
     @PatchMapping("/admin/articles/top")
+    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_BASE_ADMIN')")
     public ResponseWrapper changeArticlesTop(@RequestBody List<String> groupId, @RequestParam("top") int top) {
         articleService.updateArticlesTopByIds(groupId, top);
         return new ResponseWrapper<>(groupId);

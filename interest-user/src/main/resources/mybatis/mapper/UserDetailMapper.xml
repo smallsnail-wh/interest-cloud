@@ -16,4 +16,9 @@
         </where>
     </update>
 
+    <insert id="insert" parameterType="UserDetailEntity">
+		insert into user_detail(userid)
+		values (#{userid})
+	</insert>
+
 </mapper>

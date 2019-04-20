@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.client.resource.UserApprovalRequiredException;
+import org.springframework.security.oauth2.common.exceptions.UserDeniedAuthorizationException;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -48,7 +50,9 @@ public class MyUserDetailsService implements UserDetailsService {
         if (userEntity == null) {
             throw new UsernameNotFoundException("用户:" + id + "不存在！");
         }
-
+        if(userEntity.getStatus() == 1){
+            throw new UserDeniedAuthorizationException("用户:" + id + "禁止登陆！");
+        }
         String password = userEntity.getPassword();
 
         if (password == null) {

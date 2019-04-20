@@ -9,6 +9,7 @@ import com.interest.common.model.PageResult;
 import com.interest.common.model.ResponseWrapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,6 +45,7 @@ public class PostCardController {
 
     @ApiOperation("获取发帖,不加用户信息")
     @GetMapping("/admin/postcards")
+    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_BASE_ADMIN')")
     public ResponseWrapper<PageResult> getPostcardsNoUser(@RequestParam(value = "interestId", required = false) Integer interestId,
                                                     @RequestParam("pageSize") int pageSize, @RequestParam("page") int page) {
         PageResult<List<PostCardNoUserVO>> pageResult = new PageResult<>();
@@ -54,6 +56,7 @@ public class PostCardController {
 
     @ApiOperation("删除发帖")
     @DeleteMapping("/postcards")
+    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN','ROLE_BASE_ADMIN')")
     public ResponseWrapper<List<String>> deletePostcards(@RequestBody List<String> groupId) {
         postCardService.deletePostcards(groupId);
         return new ResponseWrapper<>(groupId);
