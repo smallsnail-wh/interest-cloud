@@ -1,6 +1,7 @@
 package com.interest.user.dao;
 
 import com.interest.user.model.entity.MenuEntity;
+import com.interest.user.model.request.MenuRequest;
 import com.interest.user.model.response.MenuVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,8 +23,6 @@ public interface MenuDao {
      * @return
      */
     List<MenuVO> getParentMenuListById(@Param("ids") List<Integer> ids);
-
-    //TODO
 
     /**
      * 获取menus列表
@@ -48,18 +47,26 @@ public interface MenuDao {
                       @Param("menuId") String menuId);
 
     /**
+     * 通过parentId得到menus列表
+     *
+     * @param parentId
+     * @return
+     */
+    List<MenuEntity> menusByParentId(@Param("parentId") int parentId);
+
+    /**
      * 新建菜单信息
      *
-     * @param menuEntity
+     * @param menuRequest
      */
-    void insertMenu(@Param("menuEntity") MenuEntity menuEntity);
+    void insertMenu(MenuRequest menuRequest);
 
     /**
      * 修改菜单信息
      *
      * @param menuEntity
      */
-    void updateMenu(@Param("menuEntity") MenuEntity menuEntity);
+    void updateMenu(MenuEntity menuEntity);
 
     /**
      * 删除菜单信息
@@ -68,13 +75,7 @@ public interface MenuDao {
      */
     void deleteMenus(@Param("groupId") List<String> groupId);
 
-    /**
-     * 通过parentId得到menus列表
-     *
-     * @param parentId
-     * @return
-     */
-    List<MenuEntity> menusByParentId(@Param("parentId") int parentId);
+    //TODO
 
     /**
      * 获取二级菜单

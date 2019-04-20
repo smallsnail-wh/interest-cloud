@@ -4,6 +4,7 @@ import com.interest.common.model.PageResult;
 import com.interest.common.model.ResponseWrapper;
 import com.interest.common.utils.SecurityAuthenUtil;
 import com.interest.user.model.entity.MenuEntity;
+import com.interest.user.model.request.MenuRequest;
 import com.interest.user.model.response.MenuVO;
 import com.interest.user.service.MenuService;
 import io.swagger.annotations.ApiOperation;
@@ -26,75 +27,45 @@ public class MenuController {
         return new ResponseWrapper<>(menuService.menuList(SecurityAuthenUtil.getId()));
     }
 
-    //TODO
-
-    /**
-     * 获取menus表数据
-     *
-     * @param pageSize
-     * @param page
-     * @return
-     */
-    @GetMapping("/menus")
+    @ApiOperation("获取menus表数据")
+    @GetMapping("/admin/menus")
     public ResponseWrapper<PageResult> menusList(int pageSize, int page, String menuId) {
-        PageResult pageResult = new PageResult();
+        PageResult<List<MenuEntity>> pageResult = new PageResult<>();
         pageResult.setData(menuService.menusList(pageSize, page * pageSize, menuId));
         pageResult.setTotalCount(menuService.menusSize(pageSize, page * pageSize, menuId));
-        log.debug("The method is ending");
         return new ResponseWrapper<>(pageResult);
     }
 
-    /**
-     * 通过parentId得到menus列表
-     *
-     * @param parentId
-     * @return
-     */
-    @GetMapping("/menus/parentId")
+    @ApiOperation("通过parentId得到menus列表")
+    @GetMapping("/admin/menus/parentId")
     public ResponseWrapper<List<MenuEntity>> menusByParentId(int parentId) {
         return new ResponseWrapper<>(menuService.menusByParentId(parentId));
     }
 
-    /**
-     * 新建菜单信息
-     *
-     * @param menuEntity
-     * @return
-     */
-    @PostMapping("/menus/menu")
-    public ResponseWrapper<MenuEntity> insertMenu(@RequestBody MenuEntity menuEntity) {
-        menuService.insertMenu(menuEntity);
-        log.debug("The method is ending");
-        return new ResponseWrapper<>(menuEntity);
+    @ApiOperation("新建菜单信息")
+    @PostMapping("/admin/menus/menu")
+    public ResponseWrapper<String> insertMenu(@RequestBody MenuRequest menuRequest) {
+        menuService.insertMenu(menuRequest);
+        return new ResponseWrapper<>("success");
     }
 
-    /**
-     * 修改菜单信息
-     *
-     * @param menuEntity
-     * @param id
-     * @return
-     */
-    @PutMapping("/menus/{id}")
+    @ApiOperation("修改菜单信息")
+    @PutMapping("/admin/menus/{id}")
     public ResponseWrapper<MenuEntity> updateMenu(@RequestBody MenuEntity menuEntity, @PathVariable int id) {
         if (menuEntity.getId() == id) {
             menuService.updateMenu(menuEntity);
         }
-        log.debug("The method is ending");
         return new ResponseWrapper<>(menuEntity);
     }
 
-    /**
-     * 删除菜单信息
-     *
-     * @param groupId
-     * @return
-     */
-    @DeleteMapping("/menus")
+    @ApiOperation("删除菜单信息")
+    @DeleteMapping("/admin/menus")
     public ResponseWrapper<List<String>> deleteMenus(@RequestBody List<String> groupId) {
         menuService.deleteMenus(groupId);
         return new ResponseWrapper<>(groupId);
     }
+
+    //TODO
 
     /**
      * 获取二级菜单

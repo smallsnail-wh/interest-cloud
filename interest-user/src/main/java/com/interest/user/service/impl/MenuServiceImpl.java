@@ -3,6 +3,7 @@ package com.interest.user.service.impl;
 import com.interest.user.dao.MenuDao;
 import com.interest.user.dao.RoleDao;
 import com.interest.user.model.entity.MenuEntity;
+import com.interest.user.model.request.MenuRequest;
 import com.interest.user.model.response.MenuVO;
 import com.interest.user.service.MenuService;
 import com.interest.user.service.RoleService;
@@ -47,8 +48,6 @@ public class MenuServiceImpl implements MenuService {
         return parentMenuVOList;
     }
 
-    //TODO
-
     @Override
     public List<MenuEntity> menusList(int pageSize, int start, String menuId) {
         return menuDao.menusList(pageSize, start, menuId);
@@ -60,8 +59,13 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public void insertMenu(MenuEntity menuEntity) {
-        menuDao.insertMenu(menuEntity);
+    public List<MenuEntity> menusByParentId(int parentId) {
+        return menuDao.menusByParentId(parentId);
+    }
+
+    @Override
+    public void insertMenu(MenuRequest menuRequest) {
+        menuDao.insertMenu(menuRequest);
     }
 
     @Override
@@ -74,10 +78,8 @@ public class MenuServiceImpl implements MenuService {
         menuDao.deleteMenus(groupId);
     }
 
-    @Override
-    public List<MenuEntity> menusByParentId(int parentId) {
-        return menuDao.menusByParentId(parentId);
-    }
+
+    //TODO
 
     @Override
     public List<MenuEntity> getSubmenus() {
