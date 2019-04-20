@@ -2,6 +2,7 @@ package com.interest.user.service;
 
 import com.interest.user.model.entity.MenuEntity;
 import com.interest.user.model.request.MenuRequest;
+import com.interest.user.model.response.MenuIdNameVO;
 import com.interest.user.model.response.MenuVO;
 
 import java.util.List;
@@ -66,14 +67,11 @@ public interface MenuService {
      */
     void deleteMenus(List<String> groupId);
 
-
-    //TODO
-
     /**
      * 获取二级菜单
      *
      * @return
      */
-    List<MenuEntity> getSubmenus();
+    List<MenuIdNameVO> getSubmenus();
 
 }

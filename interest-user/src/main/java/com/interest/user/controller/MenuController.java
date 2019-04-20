@@ -5,6 +5,7 @@ import com.interest.common.model.ResponseWrapper;
 import com.interest.common.utils.SecurityAuthenUtil;
 import com.interest.user.model.entity.MenuEntity;
 import com.interest.user.model.request.MenuRequest;
+import com.interest.user.model.response.MenuIdNameVO;
 import com.interest.user.model.response.MenuVO;
 import com.interest.user.service.MenuService;
 import io.swagger.annotations.ApiOperation;
@@ -65,15 +66,9 @@ public class MenuController {
         return new ResponseWrapper<>(groupId);
     }
 
-    //TODO
-
-    /**
-     * 获取二级菜单
-     *
-     * @return
-     */
-    @GetMapping("/menus/submenus")
-    public ResponseWrapper<List<MenuEntity>> getSubmenus() {
+    @ApiOperation("获取二级菜单id和name")
+    @GetMapping("/admin/menus/submenus")
+    public ResponseWrapper<List<MenuIdNameVO>> getSubmenus() {
         return new ResponseWrapper<>(menuService.getSubmenus());
     }
 }

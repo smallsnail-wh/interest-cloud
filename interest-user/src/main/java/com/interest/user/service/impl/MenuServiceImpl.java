@@ -4,6 +4,7 @@ import com.interest.user.dao.MenuDao;
 import com.interest.user.dao.RoleDao;
 import com.interest.user.model.entity.MenuEntity;
 import com.interest.user.model.request.MenuRequest;
+import com.interest.user.model.response.MenuIdNameVO;
 import com.interest.user.model.response.MenuVO;
 import com.interest.user.service.MenuService;
 import com.interest.user.service.RoleService;
@@ -78,11 +79,8 @@ public class MenuServiceImpl implements MenuService {
         menuDao.deleteMenus(groupId);
     }
 
-
-    //TODO
-
     @Override
-    public List<MenuEntity> getSubmenus() {
+    public List<MenuIdNameVO> getSubmenus() {
         return menuDao.getSubmenus();
     }
 

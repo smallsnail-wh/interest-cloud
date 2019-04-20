@@ -2,6 +2,7 @@ package com.interest.user.dao;
 
 import com.interest.user.model.entity.MenuEntity;
 import com.interest.user.model.request.MenuRequest;
+import com.interest.user.model.response.MenuIdNameVO;
 import com.interest.user.model.response.MenuVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -75,13 +76,11 @@ public interface MenuDao {
      */
     void deleteMenus(@Param("groupId") List<String> groupId);
 
-    //TODO
-
     /**
      * 获取二级菜单
      *
      * @return
      */
-    List<MenuEntity> getSubmenus();
+    List<MenuIdNameVO> getSubmenus();
 
 }
