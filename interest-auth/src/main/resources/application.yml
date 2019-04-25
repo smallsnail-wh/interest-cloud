@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8082
   servlet:
     context-path: /interest/auth
 eureka:
@@ -10,9 +10,12 @@ spring:
   application:
       name: interest-auth
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/interest_user?useUnicode=true&characterEncoding=UTF-8&useSSL=false&jdbcCompliantTruncation=false&zeroDateTimeBehavior=convertToNull
+#    url: jdbc:mysql://123.206.215.203:3306/interest_user?useUnicode=true&characterEncoding=UTF-8&useSSL=false&jdbcCompliantTruncation=false&zeroDateTimeBehavior=convertToNull
+#    username: interest_user
+#    password: interest_user@123
+    url: jdbc:mysql://127.0.0.1:3306/interest_user?useUnicode=true&createDatabaseIfNotExist=true&characterEncoding=UTF-8&useSSL=false&jdbcCompliantTruncation=false&zeroDateTimeBehavior=convertToNull
     username: root
-    password:
+    password: wanghuan
     hikari:
       minimum-idle: 5
       maximum-pool-size: 15
@@ -49,9 +52,15 @@ interest:
     domain-name: http://127.0.0.1:8080
 #   domain-name: https://www.lovemtt.com
 #   domain-name: 你的域名或者（ip+端口），如上
+#  github:
+#    client-id: 你在github中注册的client id
+#    client-secret: 你在github中注册的client secret
+#  qq:
+#    appid: 你在qq中注册的appid
+#    appkey: 你在qq中注册的appkey
   github:
-    client-id: 你在github中注册的client id
-    client-secret: 你在github中注册的client secret
+    client-id: 89e5885a3b1e527ef739
+    client-secret: 93a670a75ec971cc0b1f0339ac5a8a1ef6a405a0
   qq:
-    appid: 你在qq中注册的appid
-    appkey: 你在qq中注册的appkey
+    appid: 101558281
+    appkey: 4221f97d433b8f9209431f03fea12b26
